@@ -134,7 +134,7 @@ function mpgame_grandprix_show( $id) {
         $url = $CFG->wwwroot."/mod/mpgame/grandprix/admin.php?id=$id&mpgameid={$mpgame->id}&grandprixid={$rec->id}";
         echo "<a href=\"$url\">admin</a> ";
 
-        $url = "{$CFG->wwwroot}/mod/mpgame/grandprix/client.php?id=$id&mpgameid={$mpgame->id}&grandprixid={$rec->id}"
+        $url = "{$CFG->wwwroot}/mod/mpgame/grandprix/client.php?id=$id&mpgameid={$mpgame->id}&grandprixid={$rec->id}";
         echo "<a href=\"$url\">play</a> ";
 
         echo "<a href=\"{$CFG->wwwroot}/mod/mpgame/grandprix/results.php?id=$id&grandprixid={$rec->id}\">results</a>";

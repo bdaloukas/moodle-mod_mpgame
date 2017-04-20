@@ -41,7 +41,7 @@ if (array_key_exists( 'answer', $_GET)) {
     die;
 }
 
-echo mpgame_getheader( get_string( 'show_questions', 'mpgame')., 'questions.css').'<body>';
+echo mpgame_getheader( get_string( 'show_questions', 'mpgame')).'<body>';
 
 mpgame_quiz_showform();
 

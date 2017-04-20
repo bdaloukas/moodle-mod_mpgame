@@ -47,7 +47,7 @@ function mpgame_showform() {
 
     if ($resttime <= 0) {
         $divanswervisibility = ' style="visibility: hidden"';
-    } els e{
+    } else {
         $divanswervisibility = '';
     }
     $divtimerhtml = get_string( 'timerest1', 'mpgame').' '.$resttime.' '.get_string( 'timerest2', 'mpgame');

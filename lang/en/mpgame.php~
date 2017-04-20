@@ -83,7 +83,7 @@ $string[ 'no_give_grade'] = "Don't give the grade of answer";
 $string[ 'displayinfo'] = 'Display info';
 $string[ 'correct_answer_is'] = 'Correct answer';
 $string[ 'number'] = 'Number';
-$string[ 'title_administration'] = 'Administration';
+$string[ 'title_administation'] = 'Administration';
 
 // File granprix/client.php.
 $string[ 'grandprix_prompt'] = 'Give 1,2,3,4';

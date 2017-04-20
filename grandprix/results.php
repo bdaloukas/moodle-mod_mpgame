@@ -59,8 +59,8 @@ $grades = mpgame_grandprix_results_ComputeSumGrades( $katataksi, $extra);
 
 if (isset( $mpgame->question)) {
     $resttime = $mpgame->question->timefinish - time();
-    if ( $mpgame->grandprid->displayinfo) {
-        echo getstring( 'question', 'mpgame').': <b>'.$mpgame->question->numquestion.'</b> &nbsp;&nbsp;';
+    if ( $mpgame->grandprix->displayinfo) {
+        echo get_string( 'question', 'mpgame').': <b>'.$mpgame->question->numquestion.'</b> &nbsp;&nbsp;';
     }
 } else {
     $resttime = 0;
@@ -76,7 +76,7 @@ $sql = "SELECT COUNT(*) as c ".
 $rec = $DB->get_record_sql( $sql);
 $countsx = $rec->c;
 
-if ($mpgame->grandprid->displayinfo) {
+if ($mpgame->grandprix->displayinfo) {
     if ($mpgame->grandprix->questionid != 0) {
         $sql = "SELECT COUNT(DISTINCT userid) as c FROM {$CFG->prefix}mpgame_grandprix_hits ".
         " WHERE questionid={$mpgame->grandprix->questionid} AND grandprixid={$mpgame->grandprixid}";
