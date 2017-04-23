@@ -27,6 +27,9 @@ require( 'lib.php');
 require( '../locallib.php');
 require( 'libmd5.php');
 
+if (array_key_exists( 'logout', $_GET)) {
+    mpgame_logout_redirect( 'grandprix/client.php');
+}
 echo mpgame_getHeader( get_string( 'showquestions', 'mpgame')).'<body>';
 
 mpgame_grandprix_require_login();

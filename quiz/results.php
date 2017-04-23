@@ -43,11 +43,10 @@ require_capability('mod/mpgame:manage', $context);
 
 mpgame_quiz_require_login( false);
 
-echo mpgame_GetHeader( get_string( 'results'. 'mpgame'));
+echo mpgame_GetHeader( get_string( 'results', 'mpgame'));
 
 $savefile = date("Y-m-d H-i-s");
 $save = ( ($mpgame->quiz->savefile != '') and ($mpgame->quiz->savefile > $mpgame->quiz->savefile2));
-echo "save=$save";
 
 if ($mpgame->quiz->rquestionid) {
     $sql = "SELECT * FROM {$CFG->prefix}mpgame_quiz_rounds_questions WHERE id={$mpgame->quiz->rquestionid}";

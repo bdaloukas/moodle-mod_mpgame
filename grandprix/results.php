@@ -71,7 +71,7 @@ if ($resttime > 0) {
 }
 
 $sql = "SELECT COUNT(*) as c ".
-" FROM {$CFG->prefix}mpgame_grandprix_users u, {$CFG->prefix}mpgame_grandprix_rounds_users ru".
+" FROM {$CFG->prefix}mpgame_grandprix_users u, {$CFG->prefix}mpgame_grandprix_rounds_user ru".
 " WHERE ru.roundid={$mpgame->grandprix->roundid} AND ru.userid=u.id";
 $rec = $DB->get_record_sql( $sql);
 $countsx = $rec->c;
@@ -155,7 +155,7 @@ function mpgame_grandprix_results_computesumgrades_computescore( &$grades, &$ext
     }
 
     $sql = "SELECT u.* ".
-    " FROM {$CFG->prefix}mpgame_grandprix_users u, {$CFG->prefix}mpgame_grandprix_rounds_users ru".
+    " FROM {$CFG->prefix}mpgame_grandprix_users u, {$CFG->prefix}mpgame_grandprix_rounds_user ru".
     " WHERE ru.roundid={$mpgame->grandprix->roundid} AND ru.userid=u.id".
     " ORDER BY u.sortorder";
     $recs = $DB->get_records_sql( $sql);
@@ -258,7 +258,7 @@ function mpgame_grandprix_results_showsumdata( $not, $grades, $katataksi, $extra
     flusharray( $a, $lines, $maxquestion, $mpgame->grandprix->displaycount, $userid, false);
 
     $sql = "SELECT u.id,name,sortorder ".
-    " FROM {$CFG->prefix}mpgame_grandprix_users u, {$CFG->prefix}mpgame_grandprix_rounds_users ru".
+    " FROM {$CFG->prefix}mpgame_grandprix_users u, {$CFG->prefix}mpgame_grandprix_rounds_user ru".
     " WHERE ru.roundid={$mpgame->grandprix->roundid} AND ru.userid=u.id ".
     " ORDER BY sortorder";
     $recs = $DB->get_records_sql( $sql);

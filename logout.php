@@ -26,4 +26,4 @@ require( '../../config.php');
 
 require( 'locallib.php');
 
-mpgame_Delete_Session();
+mpgame_delete_session();

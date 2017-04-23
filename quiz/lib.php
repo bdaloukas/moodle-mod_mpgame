@@ -204,14 +204,14 @@ function mpgame_quiz_loadgameinfo() {
         $mpgame->quizid = required_param('quizid', PARAM_INT);   // It stores the mpgameid.
     }
     if ($mpgame->quizid == 0) {
-        die( 'Δεν ορίστηκε το quizid');
+        die( 'quizid is not set');
     }
     $sql = "SELECT * FROM {$CFG->prefix}mpgame_quiz WHERE id = {$mpgame->quizid}";
 
     $mpgame->quiz = $DB->get_record_sql( $sql);
 
     if ($mpgame->quiz->mpgameid != $mpgame->id) {
-        die( "Wrong mpgameid: $mpgame->id");
+        die( "Wrong mpgameid: (quiz.mpgameid={$mpgame->quiz->mpgameid} mpgameid={$mpgame->id}");
     }
     if ($mpgame->quiz != false) {
         $_SESSION[ 'mpgame_quizid'] = $mpgame->quizid;
@@ -377,7 +377,7 @@ function mpgame_quiz_computekindquestion( $answers) {
     } else if ($count == 1) {
         return 'S';
     } else {
-        echo '<hr> '.get_string( 'problem_kind_question', 'mpgame').': $count ';
+        echo '<hr> '.get_string( 'problem_kind_question', 'mpgame').": $count ";
         die;
         return '';
     }

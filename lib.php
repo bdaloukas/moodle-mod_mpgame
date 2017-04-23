@@ -217,7 +217,7 @@ function mpgame_delete_instance($mpgameid) {
     global $CFG, $DB;
 
     $tables = array( 'mpgame_grandprix', 'mpgame_grandprix_hits', 'mpgame_grandprix_logins', 'mpgame_grandprix_questions',
-        'mpgame_grandprix_rounds', 'mpgame_grandprix_rounds_users', 'mpgame_grandprix_users',
+        'mpgame_grandprix_rounds', 'mpgame_grandprix_rounds_user', 'mpgame_grandprix_users',
         'mpgame_quiz', 'mpgame_quiz_computers', 'mpgame_quiz_hits', 'mpgame_quiz_logins', 'mpgame_quiz_logins',
         'mpgame_quiz_rounds', 'mpgame_quiz_rounds_questions', 'mpgame_quiz_rounds_users', 'mpgame_quiz_users');
 

@@ -33,7 +33,7 @@ if ($mpgame->userid == -2) {
 }
 
 if ($mpgame->userid < 0) {
-    die( get_string( 'only_students', 'mpgame')." code={$mpgame->computercode} id={$mpgame->computerid} ");
+    die( get_string( 'only_students', 'mpgame'));
 }
 
 if (array_key_exists( 'answer', $_GET)) {

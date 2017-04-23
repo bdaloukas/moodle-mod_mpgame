@@ -254,7 +254,7 @@ function mpgame_grandprix_admin_setquestion() {
 
     $numquestion = $_POST[ 'question'];
 
-    $map = mpgame_grandprix_ParseQuestions();
+    $map = mpgame_grandprix_parsequestions();
     if (!array_key_exists( $numquestion, $map)) {
         die( get_string( 'question_not_found', 'mpgame').' '.$numquestion);
     }

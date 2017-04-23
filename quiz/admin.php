@@ -26,6 +26,11 @@ require( '../../../config.php');
 require( 'lib.php');
 require( '../locallib.php');
 
+$quizid = optional_param('quizid', 0, PARAM_INT);
+if ($quizid != 0) {
+    mpgame_delete_session();
+}
+
 $id = optional_param('id', 0, PARAM_INT); // Course Module ID.
 if ( $id == 0) {
     if (array_key_exists( 'mpgame_cmid', $_SESSION)) {
@@ -56,8 +61,6 @@ if (array_key_exists( 'txtround', $_POST)) {
     mpgame_quiz_OnSetRound( $_POST[ 'txtround']);
     mpgame_quiz_require_login();
 }
-
-echo "roundid={$mpgame->quiz->roundid} ";
 
 $sql = "SELECT * FROM {$CFG->prefix}mpgame_quiz_rounds WHERE id={$mpgame->quiz->roundid}";
 $round = $DB->get_record_sql( $sql);
@@ -140,6 +143,7 @@ echo '</tr></table>';
 if (array_key_exists( 'newquestion', $_GET)) {
     // New question.
     mpgame_quiz_selectonequestion();
+    mpgame_quiz_loadgameinfo();
     if ($mpgame->quiz->rquestionid == 0) {
         die( 'End of questions');
     }
@@ -347,13 +351,13 @@ function mpgame_quiz_selectonequestion_computefind( $map, $sheet, $category, $ki
 
     if (count( $maptemp) == 0) {
         if ($category != '') {
-            return mpgame_quiz_SelectOneQuestion_computefind( $map, $sheet, '', $kind);
+            return mpgame_quiz_selectonequestion_computefind( $map, $sheet, '', $kind);
         } else if ($sheet != '') {
-            return mpgame_quiz_SelectOneQuestion_computefind( $map, '', $category, $kind);
+            return mpgame_quiz_selectonequestion_computefind( $map, '', $category, $kind);
         } else if ($kind != '') {
-            return mpgame_quiz_SelectOneQuestion_computefind( $map, $sheet, $category, '');
+            return mpgame_quiz_selectonequestion_computefind( $map, $sheet, $category, '');
         } else if (($sheet != '') or ($category != '') or ($kind != '')) {
-            return mpgame_quiz_SelectOneQuestion_computefind( $map, '', '', '');
+            return mpgame_quiz_selectonequestion_computefind( $map, '', '', '');
         } else {
             return false;
         }
@@ -691,7 +695,7 @@ function mpgame_quiz_computetopstudents( $count, $isextra, &$mapequal) {
 function mpgame_quiz_ondebugquestions() {
     $map = mpgame_quiz_parsequestions();
     echo "<table border=1>\r\n";
-    echo '<tr><td>'.get_string( 'number', 'mpgame').'</td><td><b>'.get_strng( 'kind', 'mpgame').'</td>';
+    echo '<tr><td>'.get_string( 'number', 'mpgame').'</td><td><b>'.get_string( 'book', 'mpgame').'</td>';
     echo '<td><b>'.get_string( 'question', 'mpgame')."</b>\r\n";
     for ($i = 1; $i <= 4; $i++) {
         echo '</td><td><b>'.get_string( 'answer', 'mpgame').$i.'</td>';
@@ -869,8 +873,17 @@ function mpgame_quiz_parsequestions() {
     $ext = strtolower( substr( $file, $pos + 1));
 
     if (($ext == 'htm') or ($ext == 'html')) {
-        return mpgame_quiz_ParseQuestions_htm( file_get_contents( $file));
+        return mpgame_quiz_parseQuestions_htm( file_get_contents( $file));
+    } 
+    
+    if ($mpgame->questionfileid != 0) {
+        $f = mpgame_get_question_file( $mpgame);
     } else {
-        die( "Aknown type $ext (file=$file)");
+        $f = false;
     }
+    if ($f === false) {
+        die( "Not set questionfileid");
+    }
+
+    return mpgame_quiz_parsequestions_htm( $f->get_content());
 }

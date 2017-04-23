@@ -42,7 +42,7 @@ function mpgame_grandprix_showform_importstudents() {
     echo '<form name="formimportstudents" id="formimportstudents" method="post" action="import.php">';
     echo get_string( 'import_students', 'mpgame').': <textarea id="students" name="students" rows="20" cols="100"> </textarea>';
     echo '<input type="checkbox" name="do" value="do">Εισαγωγή στη βάση<br>';
-    echo '<input type="submit" name = "importstudents" value="'.get_string( 'set', 'mpgame').'">';
+    echo '<input type="submit" name = "importstudents" value="'.get_string( 'import', 'mpgame').'">';
     echo '</form>';
 }
 

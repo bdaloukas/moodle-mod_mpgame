@@ -60,7 +60,7 @@ $string[ 'mpgame_grandprix'] = 'Multiplayer Game - Grandprix';
 $string[ 'question_file'] = 'Question file (HTML)';
 
 // File grandprix/admin.php.
-$string[ 'import_students'] = 'Insert students';
+$string[ 'import_students'] = 'Import students';
 $string[ 'set_rounds'] = 'Set rounds';
 $string[ 'round'] = 'Round';
 $string[ 'displaycols'] = 'Cols to display';
@@ -89,8 +89,6 @@ $string[ 'title_administration'] = 'Administration';
 $string[ 'grandprix_prompt'] = 'Give 1,2,3,4';
 
 // File grandprix/import.php.
-$string[ 'import_students'] = 'Insert students';
-$string[ 'set'] = 'Set';
 $string[ 'continue'] = 'Continue';
 
 // File grandprix/lib.php.
@@ -139,6 +137,7 @@ $string[ 'you_are_not_in_this_round'] = 'YOU ARE NOT IN THIS ROUND';
 $string[ 'time_in_seconds'] = 'Time in seconds';
 $string[ 'end_of_rounds'] = 'End of rounds';
 $string[ 'save'] = 'Save';
+$string[ 'book'] = 'Book';
 
 // File quiz/client.php.
 $string[ 'only_students'] = 'Only students';
@@ -162,6 +161,8 @@ $string[ 'randomseed'] = 'Random seed';
 $string[ 'group'] = 'Group';
 $string[ 'count'] = 'Count';
 $string[ 'count_digits'] = 'Number of digits';
+$string[ 'random_title'] = 'Random';
+$string[ 'Students'] = 'Students';
 
 // File quiz/results.php.
 $string[ 'quiz_student_name'] = 'Name of student';

@@ -38,7 +38,7 @@ if (array_key_exists( 'count', $_POST)) {
     mpgame_quiz_OnSubmit_SetSeed();
 } else {
     if ($mpgame->quiz->randomseed == 0) {
-        echo "<a href=\"{$CFG->wwwroot}/mod/mpgame/quiz/random.php?seed=1\">Ορισμός randomseed</a>";
+        echo "<a href=\"{$CFG->wwwroot}/mod/mpgame/quiz/random.php?seed=1\">".get_string( 'set_randomseed', 'mpgame').'</a>';
     } else {
         mpgame_quiz_random_ShowForm();
     }
@@ -47,7 +47,7 @@ if (array_key_exists( 'count', $_POST)) {
 function mpgame_quiz_random_showform() {
     global $mpgame, $CFG;
 
-    echo mpgame_getheader( get_string( 'random', 'mpgame'));
+    echo mpgame_getheader( get_string( 'random_title', 'mpgame'));
 
     $level = $mpgame->quiz->level;
 
@@ -80,7 +80,7 @@ function mpgame_quiz_showform_setseed() {
     echo '<table cellpadding=0 border=0>';
     echo '<form name="MainForm" method="post" action="random.php">';
 
-    echo '<tr><td>'.get_string( 'randomseed', 'mpgame')': </td>';
+    echo '<tr><td>'.get_string( 'randomseed', 'mpgame').': </td>';
     echo '<td><input name="num" type="text" id="num"></td></tr>';
 
     echo '<tr><td></td><td><center><br>';
@@ -108,10 +108,10 @@ function mpgame_quiz_random_onsubmit() {
     echo "<a href=\"random.php?count=$numcomputers\">".get_string( 'set', 'mpgame').'</a>';
 }
 
-function mpgame_quiz_random_computenum( $numcomputers, $nustudents, &$nugroups) {
+function mpgame_quiz_random_computenum( $numcomputers, $numstudents, &$nugroups) {
     global $mpgame;
 
-    $nugroups = ceil( $nustudents / $numcomputers);
+    $nugroups = ceil( $numstudents / $numcomputers);
 
     echo get_string( 'students', 'mpgame').': '.$numstudents.' ';
     echo get_string( 'computers', 'mpgame').' : '.$numcomputers.' ';
@@ -142,7 +142,7 @@ function mpgame_quiz_onconfirm() {
 
     $level = $mpgame->quiz->level;
 
-    $nucomputers = $_GET[ 'count'];
+    $numcomputers = $_GET[ 'count'];
 
     $students = mpgame_quiz_random_ComputeUsers( $level, true);
     $numstudents = count( $students);
@@ -237,7 +237,7 @@ function mpgame_quiz_onconfirm() {
         $updrec->roundid = 0;
     $DB->update_record( 'mpgame_quiz', $updrec);
 
-    echo "<a href=\"{$CFG->wwwroot}/mod/mpgame/quiz/admin.php\">Συνέχεια</a>";
+    echo "<a href=\"{$CFG->wwwroot}/mod/mpgame/quiz/admin.php\">".get_string( 'continue', 'mpgame').'</a>';
 }
 
 function mpgame_quiz_random_computeusers( $level, $onlypass) {

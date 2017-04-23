@@ -98,7 +98,7 @@ function mpgame_quiz_show( $id) {
         $recs = $DB->get_records_sql( $sql);
     }
 
-    $sql = "SELECT id,name,gamekind FROM {$CFG->prefix}mpgame WHERE id={$mpgame->id} ORDER BY id";
+    $sql = "SELECT id,name FROM {$CFG->prefix}mpgame_quiz WHERE mpgameid={$mpgame->id} ORDER BY id";
     $recs = $DB->get_records_sql( $sql);
     foreach ($recs as $rec) {
         if ($rec->name == '') {
@@ -134,7 +134,7 @@ function mpgame_grandprix_show( $id) {
         $url = $CFG->wwwroot."/mod/mpgame/grandprix/admin.php?id=$id&mpgameid={$mpgame->id}&grandprixid={$rec->id}";
         echo "<a href=\"$url\">admin</a> ";
 
-        $url = "{$CFG->wwwroot}/mod/mpgame/grandprix/client.php?id=$id&mpgameid={$mpgame->id}&grandprixid={$rec->id}";
+        $url = "{$CFG->wwwroot}/mod/mpgame/grandprix/client.php?id=$id&mpgameid={$mpgame->id}&grandprixid={$rec->id}&logout=1";
         echo "<a href=\"$url\">play</a> ";
 
         echo "<a href=\"{$CFG->wwwroot}/mod/mpgame/grandprix/results.php?id=$id&grandprixid={$rec->id}\">results</a>";

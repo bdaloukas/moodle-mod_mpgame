@@ -26,7 +26,7 @@ require( '../locallib.php');
 
 $grandprixid = optional_param('grandprixid', 0, PARAM_INT);
 if ($grandprixid != 0) {
-    mpgame_Delete_Session();
+    mpgame_delete_session();
 }
 
 $id = optional_param('id', 0, PARAM_INT); // Course Module ID.

@@ -56,14 +56,14 @@ function mpgame_grandprix_startrounds() {
     $updrec->roundid = $mpgame->roundid;
     $DB->update_record( 'mpgame_grandprix', $updrec);
 
-    $sql = "SELECT COUNT(*) as c FROM {$CFG->prefix}mpgame_grandprix_rounds_users ru, {$CFG->prefix}mpgame_grandprix_rounds r".
+    $sql = "SELECT COUNT(*) as c FROM {$CFG->prefix}mpgame_grandprix_rounds_user ru, {$CFG->prefix}mpgame_grandprix_rounds r".
     " WHERE ru.roundid=r.id AND r.grandprixid={$mpgame->grandprixid}";
     $rec = $DB->get_record_sql( $sql);
     if ($rec->c != 0) {
         return;
     }
 
-    $sql = "INSERT INTO {$CFG->prefix}mpgame_grandprix_rounds_users(mpgameid,roundid,userid,pass) ".
+    $sql = "INSERT INTO {$CFG->prefix}mpgame_grandprix_rounds_user(mpgameid,roundid,userid,pass) ".
     " SELECT {$mpgame->id},{$mpgame->roundid},id,0 ".
     " FROM {$CFG->prefix}mpgame_grandprix_users ".
     " WHERE grandprixid={$mpgame->grandprixid}";

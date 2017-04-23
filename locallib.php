@@ -187,3 +187,27 @@ function mpgame_shuffle_assoc( &$array) {
     }
     $array = $new;
 }
+
+function mpgame_logout_redirect( $url)
+{
+    global $CFG;
+
+    $s = '';
+    foreach( $_GET as $name => $value) {
+        if( $name == 'logout') {
+            continue;
+        }
+        if ($s != '') {
+            $s .= '&';
+        }
+        $s .= "{$name}={$value}";
+    }
+
+    if ($s != '') {
+        $s = '?'.$s;
+    }
+
+    mpgame_delete_session();
+
+    redirect( $CFG->wwwroot.'/mod/mpgame/'.$url.$s);
+}

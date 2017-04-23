@@ -65,7 +65,7 @@ function mpgame_grandprix_random_onsubmit() {
     $countdigits = $_POST[ 'count'];
     $randomseed = $_POST[ 'randomseed'];
 
-    $sql = "SELECT u.id FROM {$CFG->prefix}mpgame_grandprix_users u, {$CFG->prefix}mpgame_grandprix_rounds_users ru ".
+    $sql = "SELECT u.id FROM {$CFG->prefix}mpgame_grandprix_users u, {$CFG->prefix}mpgame_grandprix_rounds_user ru ".
     " WHERE ru.userid=u.id AND ru.roundid={$mpgame->grandprix->roundid}";
     $recs = $DB->get_records_sql( $sql);
     foreach ($recs as $rec) {
@@ -88,7 +88,7 @@ function mpgame_grandprix_random_print() {
     global $CFG, $DB, $mpgame;
 
     $sql = "SELECT u.id,u.username,u.pw,u.name ".
-    " FROM {$CFG->prefix}mpgame_grandprix_users u, {$CFG->prefix}mpgame_grandprix_rounds_users ru ".
+    " FROM {$CFG->prefix}mpgame_grandprix_users u, {$CFG->prefix}mpgame_grandprix_rounds_user ru ".
     " WHERE ru.userid=u.id AND ru.roundid={$mpgame->grandprix->roundid}";
     $recs = $DB->get_records_sql( $sql);
     echo '<table cellpadding=10>';
