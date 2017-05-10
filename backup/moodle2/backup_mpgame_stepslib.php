@@ -28,6 +28,9 @@
 /**
  * Define the complete game structure for backup, with file and id annotations
  */
+
+defined('MOODLE_INTERNAL') || die();
+
 class backup_mpgame_activity_structure_step extends backup_activity_structure_step {
 
     protected function define_structure() {
@@ -37,7 +40,7 @@ class backup_mpgame_activity_structure_step extends backup_activity_structure_st
 
         // Define each element separated.
         $mpgame = new backup_nested_element('mpgame', array('id'), array(
-        'gamekind', 'name', 'intro', 'introformat', 'course','sourcemodule', 'timemodified', 'grade', 'decimalpoints',
+        'gamekind', 'name', 'intro', 'introformat', 'course', 'sourcemodule', 'timemodified', 'grade', 'decimalpoints',
         'questionfile', 'questionfileid'));
 
         $quizcomputerss = new backup_nested_element('mpgame_quiz_computerss');
@@ -63,7 +66,7 @@ class backup_mpgame_activity_structure_step extends backup_activity_structure_st
 
         $grandprixs = new backup_nested_element('mpgame_grandprixs');
         $grandprix = new backup_nested_element('mpgame_grandprix', array('id'), array(
-        'mpgameid', 'roundid', 'name', 'questionid', 'displaykind', 'displaysort', 
+        'mpgameid', 'roundid', 'name', 'questionid', 'displaykind', 'displaysort',
         'displaycount', 'displaytop', 'displaytimerefresh', 'displayinfo', 'countquestions'));
 
         $grandprixroundss = new backup_nested_element('mpgame_grandprix_roundss');
@@ -71,8 +74,8 @@ class backup_mpgame_activity_structure_step extends backup_activity_structure_st
         'mpgameid', 'grandprixid', 'round', 'level', 'numquestions', 'numpass'));
 
         $grandprixhitss = new backup_nested_element('mpgame_grandprix_hitss');
-        $grandprixhits = new backup_nested_element('mpgame_grandprix_hits', array('id'), array( 
-        'mpgameid', 'grandprixid', 'userid', 'ip', 'questionid', 'answer', 'grade', 'graded', 
+        $grandprixhits = new backup_nested_element('mpgame_grandprix_hits', array('id'), array(
+        'mpgameid', 'grandprixid', 'userid', 'ip', 'questionid', 'answer', 'grade', 'graded',
         'timeout', 'todelete', 'timehit'));
 
         $grandprixquestionss = new backup_nested_element('mpgame_grandprix_questionss');
@@ -175,32 +178,8 @@ class backup_mpgame_activity_structure_step extends backup_activity_structure_st
             $quizroundsquestions->set_source_table('mpgame_quiz_rounds_questions', array( 'id' => backup::VAR_ACTIVITYID));
             $quizroundsusers->set_source_table('mpgame_quiz_rounds_users', array( 'id' => backup::VAR_ACTIVITYID));
             $quizusers->set_source_table('mpgame_quiz_users', array( 'id' => backup::VAR_ACTIVITYID));
-
-            //$snake->set_source_table('game_snakes', array( 'id' => backup::VAR_PARENTID));
-            //$sudoku->set_source_table('game_sudoku', array( 'id' => backup::VAR_PARENTID));
         }
         // Define id annotations.
-/**
-        $attempt->annotate_ids('user', 'userid');
-        $grade->annotate_ids('user', 'userid');
-        $repetition->annotate_ids('user', 'userid');
-        $repetition->annotate_ids('question', 'questionid');
-        $repetition->annotate_ids('glossary_entry', 'glossaryentryid');
-        $query->annotate_ids('user', 'userid');
-        $query->annotate_ids('question', 'questionid');
-        $query->annotate_ids('glossary_enrty', 'glossaryentryid');
-        $query->annotate_ids('question_answer', 'answerid');
-
-        $bookquizquestion->annotate_ids('book_chapter', 'chapterid');
-        $bookquizquestion->annotate_ids('question_category', 'questioncategoryid');
-        $bookquizchapter->annotate_ids('book_chapter', 'chapterid');
-        $hangman->annotate_ids('game_query', 'queryid');
-        $millionaire->annotate_ids('game_query', 'queryid');
-
-        // Define file annotations.
-        $game->annotate_files('mod_game', 'snakes_file', null); // This file area hasn't itemid.
-        $game->annotate_files('mod_game', 'snakes_board', null); // This file area hasn't itemid.
-*/
         // Return the root element (game), wrapped into standard activity structure.
         return $this->prepare_activity_structure( $game);
     }

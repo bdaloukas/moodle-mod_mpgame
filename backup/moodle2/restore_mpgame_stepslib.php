@@ -27,6 +27,8 @@
 /**
  * Structure step to restore one game activity
  */
+defined('MOODLE_INTERNAL') || die();
+
 class restore_mpgame_activity_structure_step extends restore_activity_structure_step {
 
     protected function define_structure() {

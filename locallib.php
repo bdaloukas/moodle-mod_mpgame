@@ -188,13 +188,12 @@ function mpgame_shuffle_assoc( &$array) {
     $array = $new;
 }
 
-function mpgame_logout_redirect( $url)
-{
+function mpgame_logout_redirect( $url) {
     global $CFG;
 
     $s = '';
-    foreach( $_GET as $name => $value) {
-        if( $name == 'logout') {
+    foreach ($_GET as $name => $value) {
+        if ($name == 'logout') {
             continue;
         }
         if ($s != '') {

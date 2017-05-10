@@ -273,7 +273,7 @@
       </KEYS>
     </TABLE>
     
-    <TABLE NAME="mpgame_grandprix_rounds_users" COMMENT="Default comment for the table, please edit me">
+    <TABLE NAME="mpgame_grandprix_rounds_user" COMMENT="Default comment for the table, please edit me">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="mpgameid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>

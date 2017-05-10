@@ -874,8 +874,8 @@ function mpgame_quiz_parsequestions() {
 
     if (($ext == 'htm') or ($ext == 'html')) {
         return mpgame_quiz_parseQuestions_htm( file_get_contents( $file));
-    } 
-    
+    }
+
     if ($mpgame->questionfileid != 0) {
         $f = mpgame_get_question_file( $mpgame);
     } else {
