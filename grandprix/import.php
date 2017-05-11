@@ -42,7 +42,7 @@ function mpgame_grandprix_showform_importstudents() {
     echo '<form name="formimportstudents" id="formimportstudents" method="post" action="import.php">';
     echo get_string( 'import_students', 'mpgame').': <textarea id="students" name="students" rows="20" cols="100"> </textarea>';
     echo '<input type="checkbox" name="do" value="do">Εισαγωγή στη βάση<br>';
-    echo '<input type="submit" name = "importstudents" value="'.get_string( 'import', 'mpgame').'">';
+    echo '<input type="submit" name = "importstudents" value="'.get_string( 'import_students', 'mpgame').'">';
     echo '</form>';
 }
 
@@ -101,5 +101,7 @@ function mpgame_grandprix_showform_importstudents_screen() {
         $DB->insert_record( 'mpgame_grandprix_users', $newrec);
     }
 
-    echo "<a href=\"{$CFG->wwwroot}/mod/mpgame/quiz/admin.php\">".get_string( 'continue', 'mpgame').'</a>';
+    $cmg = get_coursemodule_from_instance('mpgame', $mpgame->id, $mpgame->course);
+    $url = "{$CFG->wwwroot}/mod/mpgame/quiz/admin.php?id={$cmg->id}&mpgameid={$mpgame->id}&grandprixid={$mpgame->grandprix->id}";
+    echo "<a href=\"$url\">".get_string( 'continue', 'mpgame').'</a>';
 }

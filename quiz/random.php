@@ -84,7 +84,7 @@ function mpgame_quiz_showform_setseed() {
     echo '<td><input name="num" type="text" id="num"></td></tr>';
 
     echo '<tr><td></td><td><center><br>';
-    echo '<input type="submit" name="seed" value="'.get_string( 'set', 'mpgame').'"></td>';
+    echo '<input type="submit" name="seed" value="'.get_string( 'start_random', 'mpgame').'"></td>';
     echo '</table></form>';
 
     echo '<script type="text/JavaScript">
@@ -95,7 +95,7 @@ function mpgame_quiz_showform_setseed() {
 function mpgame_quiz_random_onsubmit() {
     global $CFG, $DB, $mpgame;
 
-    echo mpgame_getheader( get_string( 'random', 'mpgame'));
+    echo mpgame_getheader( get_string( 'random_title', 'mpgame'));
 
     $numcomputers = $_POST[ 'count'];
     $students = mpgame_quiz_random_computeusers( $mpgame->quiz->level, true);
@@ -138,7 +138,7 @@ function mpgame_quiz_onsubmit_setseed() {
 function mpgame_quiz_onconfirm() {
     global $CFG, $DB, $mpgame;
 
-    echo mpgame_getheader( get_string( 'random', 'mpgame'));
+    echo mpgame_getheader( get_string( 'random_title', 'mpgame'));
 
     $level = $mpgame->quiz->level;
 

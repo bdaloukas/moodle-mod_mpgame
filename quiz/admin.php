@@ -214,7 +214,7 @@ function mpgame_quiz_showformround() {
 
     echo '<form name="formround" id="formround" method="post" action="admin.php">';
     echo get_string( 'change_round', 'mpgame').': <input type="text" id="txtround" name="txtround" size="2" >';
-    echo '<input type="submit" value="'.get_string( 'set', 'mpgame').'"><br>';
+    echo '<input type="submit" value="'.get_string( 'set_rounds', 'mpgame').'"><br>';
 
     echo ' '.get_string( 'rounds_run', 'mpgame').': '.implode( $used, ',').' ';
     echo get_string( 'rounds_rest', 'mpgame').': '.implode( $notused, ',');
@@ -249,7 +249,7 @@ function mpgame_quiz_showformdisplay() {
     echo get_string( 'results_commands', 'mpgame');
     echo ': <input type="text" id="txtdisplay" name="txtdisplay" size="2" value="'.$mpgame->quiz->displaycommand.'">';
     echo '0:default, 1=Μαθητές γύρου';
-    echo '<input type="submit" value="'.get_string( 'set', 'mpgame').'">';
+    echo '<input type="submit" value="'.get_string( 'set_displaycommand', 'mpgame').'">';
     echo '</form>';
 }
 
@@ -259,7 +259,7 @@ function mpgame_quiz_showformcolumns() {
     echo '<form name="formcolumns" id="formcolumns" method="post" action="admin.php">';
     echo get_string( 'cols', 'mpgame');
     echo ': <input type="text" id="txtcolumns" name="txtcolumns" value="'.$mpgame->quiz->displaycols.'" size="2" >';
-    echo '<input type="submit" value="'.get_string( 'set', 'mpgame').'">';
+    echo '<input type="submit" value="'.get_string( 'set_columns', 'mpgame').'">';
     echo '</form>';
 }
 

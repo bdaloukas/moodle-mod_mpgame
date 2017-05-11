@@ -73,6 +73,8 @@ $string[ 'displaytimerefresh'] = 'Time refresh';
 $string[ 'change'] = 'Change';
 $string[ 'grades'] = 'Grades';
 $string[ 'set_grade'] = 'Set grade';
+$string[ 'set_displaycommand'] = 'Set diplay command';
+$string[ 'set_columns'] = 'Set columns';
 $string[ 'show'] = 'show';
 $string[ 'start'] = 'Start';
 $string[ 'question_not_found'] = 'Question not found';
@@ -110,7 +112,7 @@ $string[ 'results_sum'] = 'Sum';
 
 // File grandprix/timeradmin.php.
 $string[ 'rest_time'] = 'Rest time';
-$string[ 'not_answer'] = "Don't answered";
+$string[ 'not_answer'] = "Don't answer";
 
 // File quiz/admin.php.
 $string[ 'start_random'] = 'Start random';
@@ -162,7 +164,7 @@ $string[ 'group'] = 'Group';
 $string[ 'count'] = 'Count';
 $string[ 'count_digits'] = 'Number of digits';
 $string[ 'random_title'] = 'Random';
-$string[ 'Students'] = 'Students';
+$string[ 'students'] = 'Students';
 
 // File quiz/results.php.
 $string[ 'quiz_student_name'] = 'Name of student';

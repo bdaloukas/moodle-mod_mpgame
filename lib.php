@@ -244,7 +244,7 @@ function mpgame_supports($feature) {
         case FEATURE_GROUPINGS:
             return true;
         case FEATURE_GROUPMEMBERSONLY:
-            return true;
+                return true;
         case FEATURE_MOD_INTRO:
             return false;
         case FEATURE_COMPLETION_TRACKS_VIEWS:
@@ -267,7 +267,7 @@ function mpgame_get_question_file( $mpgame) {
     if ($mpgame->questionfile != '') {
         return file_get_contents( $mpgame->questionfile);
     }
-    $cmg = get_coursemodule_from_instance('mpgame', $mpgame->id, $mpgame->courseid);
+    $cmg = get_coursemodule_from_instance('mpgame', $mpgame->id, $mpgame->course);
     $modcontext = mpgame_get_context_module_instance( $cmg->id);
 
     $fs = get_file_storage();

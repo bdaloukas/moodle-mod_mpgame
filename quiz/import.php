@@ -42,7 +42,7 @@ function mpgame_quiz_showform_importstudents() {
     echo '<form name="formimportstudents" id="formimportstudents" method="post" action="import.php">';
     echo get_string( 'import_students', 'mpgame').': <textarea id="students" name="students" rows="20" cols="100"> </textarea>';
     echo '<input type="checkbox" name="do" value="do">'.get_string( 'import_students', 'mpgame').'<br>';
-    echo '<input type="submit" name = "importstudents" value="'.get_string( 'import', 'mpgame').'">';
+    echo '<input type="submit" name = "importstudents" value="'.get_string( 'import_students', 'mpgame').'">';
     echo '</form>';
 }
 
@@ -97,8 +97,10 @@ function mpgame_quiz_showform_importstudents_screen() {
         $newrec->school = $line[ 'school'];
         $DB->insert_record( 'mpgame_quiz_users', $newrec);
     }
+    $cmg = get_coursemodule_from_instance('mpgame', $mpgame->id, $mpgame->course);
+    $url = "{$CFG->wwwroot}/mod/mpgame/quiz/admin.php?id={$cmg->id}&mpgameid={$mpgame->id}&quizid={$mpgame->quiz->id}";
 
-    echo "<a href=\"{$CFG->wwwroot}/mod/mpgame/quiz/admin.php\">".get_string( 'continue', 'mpgame').'</a>';
+    echo "<a href=\"$url\">".get_string( 'continue', 'mpgame').'</a>';
 }
 
 function mpgame_quiz_showform_importstudents_do() {
