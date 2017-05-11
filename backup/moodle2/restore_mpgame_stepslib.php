@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package mod_game
+ * @package mod_mpgame
  * @subpackage backup-moodle2
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -36,26 +36,44 @@ class restore_mpgame_activity_structure_step extends restore_activity_structure_
         $paths = array();
         $userinfo = $this->get_setting_value('userinfo');
 
-        $paths[] = new restore_path_element('game', '/activity/game');
-        $paths[] = new restore_path_element('game_export_html', '/activity/game/game_export_htmls/game_export_html');
-        $paths[] = new restore_path_element('game_export_javame', '/activity/game/game_export_htmls/game_export_javame');
-        $paths[] = new restore_path_element(
-            'game_bookquiz_question', '/activity/game/game_bookquiz_questions/game_bookquiz_question');
+        $paths[] = new restore_path_element('mpgame', '/activity/mpgame');
+
         if ($userinfo) {
-            $paths[] = new restore_path_element('game_grade', '/activity/game/game_grades/game_grade');
-            $paths[] = new restore_path_element('game_repetition', '/activity/game/game_repetiotions/game_repetition');
-            $paths[] = new restore_path_element('game_attempt', '/activity/game/game_attempts/game_attempt');
-            $paths[] = new restore_path_element('game_query', '/activity/game/game_querys/game_query');
-            $paths[] = new restore_path_element('game_bookquiz', '/activity/game/game_bookquizs/game_bookquiz');
-            $paths[] = new restore_path_element('game_bookquiz_chapter',
-                '/activity/game/game_bookquiz_chapters/game_bookquiz_chapter');
-            $paths[] = new restore_path_element('game_cross', '/activity/game/game_crosss/game_cross');
-            $paths[] = new restore_path_element('game_cryptex', '/activity/game/game_cryptexs/game_cryptex');
-            $paths[] = new restore_path_element('game_hangman', '/activity/game/game_hangmans/game_hangman');
-            $paths[] = new restore_path_element('game_hiddenpicture', '/activity/game/game_hiddenpictures/game_hiddenpicture');
-            $paths[] = new restore_path_element('game_millionaire', '/activity/game/game_millionaires/game_millionaire');
-            $paths[] = new restore_path_element('game_snake', '/activity/game/game_snakes/game_snake');
-            $paths[] = new restore_path_element('game_sudoku', '/activity/game/game_sudokus/game_sudoku');
+            $paths[] = new restore_path_element('mpgame_grandprix', '/activity/mpgame/mpgame_grandprixs/mpgame_grandprix');
+
+            $paths[] = new restore_path_element('mpgame_grandprix_hits',
+            '/activity/mpgame/mpgame_grandprixs_hitss/mpgame_grandprix_hits');
+
+            $paths[] = new restore_path_element('mpgame_grandprix_logins',
+            '/activity/mpgame/mpgame_loginss/mpgame_grandprix_logins');
+
+            $paths[] = new restore_path_element('mpgame_grandprix_questions',
+            '/activity/mpgame/mpgame_questionss/mpgame_grandprix_questions');
+
+            $paths[] = new restore_path_element('mpgame_grandprix_users',
+            '/activity/mpgame/mpgame_grandprix_userss/mpgame_grandprix_users');
+
+            $paths[] = new restore_path_element('mpgame_grandprix_rounds',
+            '/activity/mpgame/mpgame_grandprix_roundss/mpgame_grandprix_rounds');
+
+            $paths[] = new restore_path_element('mpgame_grandprix_rounds_user',
+            '/activity/mpgame/mpgame_grandprix_rounds_users/mpgame_grandprix_rounds_user');
+
+            $paths[] = new restore_path_element('mpgame_quiz', '/activity/mpgame/mpgame_quizs/mpgame_quiz');
+            $paths[] = new restore_path_element('mpgame_quiz_computers',
+            '/activity/mpgame/mpgame_quiz_computerss/mpgame_quiz_computers');
+            $paths[] = new restore_path_element('mpgame_quiz_hits',
+            '/activity/mpgame/mpgame_quiz_hitss/mpgame_quiz_hits');
+            $paths[] = new restore_path_element('mpgame_quiz_logins',
+            '/activity/mpgame/mpgame_quiz_loginss/mpgame_quiz_logins');
+            $paths[] = new restore_path_element('mpgame_quiz_rounds',
+            '/activity/mpgame/mpgame_quiz_roundss/mpgame_quiz_rounds');
+            $paths[] = new restore_path_element('mpgame_quiz_rounds_questions',
+            '/activity/mpgame/mpgame_quiz_rounds_questionss/mpgame_quiz_rounds_questions');
+            $paths[] = new restore_path_element('mpgame_quiz_users',
+            '/activity/mpgame/mpgame_quiz_userss/mpgame_quiz_users');
+            $paths[] = new restore_path_element('mpgame_quiz_rounds_users',
+            '/activity/mpgame/mpgame_quiz_rounds_userss/mpgame_quiz_rounds_users');
         }
 
         // Return the paths wrapped into standard activity structure.
@@ -70,206 +88,198 @@ class restore_mpgame_activity_structure_step extends restore_activity_structure_
         $data->course = $this->get_courseid();
         $data->timemodified = $this->apply_date_offset($data->timemodified);
 
-        // Insert the game record.
-        $newitemid = $DB->insert_record('game', $data);
+        // Insert the mpgame record.
+        $newitemid = $DB->insert_record('mpgame', $data);
 
         // Immediately after inserting "activity" record, call this.
         $this->apply_activity_instance($newitemid);
     }
 
-    protected function process_mpgame_export_html($data) {
-        global $DB;
-
-        $data = (object)$data;
-
-        $data->id = $this->get_new_parentid('game');
-        if ($data->id != 0) {
-            $DB->insert_record('game_export_html', $data);
-        }
-    }
-
-    protected function process_mpgame_export_javame($data) {
-        global $DB;
-
-        $data = (object)$data;
-
-        $data->id = $this->get_new_parentid('game');
-        if ($data->id != 0) {
-            $DB->insert_record('game_export_javame', $data);
-        }
-    }
-
-    protected function process_mpgame_grade($data) {
+    protected function process_mpgame_grandprix($data) {
         global $DB;
 
         $data = (object)$data;
         $oldid = $data->id;
 
-        $data->gameid = $this->get_new_parentid('game');
-        $data->userid = $this->get_mappingid('user', $data->userid);
+        $data->mpgameid = $this->get_new_parentid('mpgame');
+        $data->questionid = 0;
+        $newitemid = $DB->insert_record('mpgame_grandprix', $data);
 
-        $DB->insert_record('game_grades', $data);
+        $this->set_mapping('mpgame_grandprix', $oldid, $newitemid, true);
     }
 
-    protected function process_mpgame_repetition($data) {
+    protected function process_mpgame_grandprix_hits($data) {
+        global $DB;
+
+        $data = (object)$data;
+
+        $data->mpgameid = $this->get_new_parentid('mpgame');
+        $data->grandprixid = $this->get_new_parentid('mpgame_grandprix');
+        $data->userid = $this->get_mappingid('mpgame_grandprix_users', $data->userid);
+        $DB->insert_record('mpgame_grandprix_hits', $data);
+    }
+
+    protected function process_mpgame_grandprix_logins($data) {
+        global $DB;
+
+        $data = (object)$data;
+
+        $data->mpgameid = $this->get_new_parentid('mpgame');
+        $data->grandprixid = $this->get_new_parentid('mpgame_grandprix');
+        $data->userid = $this->get_mappingid('mpgame_grandprix_users', $data->userid);
+        $DB->insert_record('mpgame_grandprix_hits', $data);
+    }
+
+    protected function process_mpgame_grandprix_questions($data) {
         global $DB;
 
         $data = (object)$data;
         $oldid = $data->id;
 
-        $data->gameid = $this->get_new_parentid('game');
-        $data->userid = $this->get_mappingid('user', $data->userid);
+        $data->mpgameid = $this->get_new_parentid('mpgame');
+        $data->grandprixid = $this->get_new_parentid('mpgame_grandprix');
+        $newitemid = $DB->insert_record('mpgame_grandprix_questions', $data);
 
-        $DB->insert_record('game_repetitions', $data);
+        $this->set_mapping('mpgame_grandprix_questions', $oldid, $newitemid, true);
     }
 
-    protected function process_game_attempt($data) {
+
+    protected function process_mpgame_grandprix_rounds($data) {
+        global $DB;
+
+        $data = (object)$data;
+
+        $data->mpgameid = $this->get_new_parentid('mpgame');
+        $data->grandprixid = $this->get_new_parentid('mpgame_grandprix');
+        $newitemid = $DB->insert_record('mpgame_grandprix_rounds', $data);
+
+        $this->set_mapping('mpgame_grandprix_rounds', $oldid, $newitemid, true);
+    }
+
+    protected function process_mpgame_grandprix_users($data) {
         global $DB;
 
         $data = (object)$data;
         $oldid = $data->id;
 
-        $data->gameid = $this->get_new_parentid('game');
-        $data->userid = $this->get_mappingid('user', $data->userid);
+        $data->mpgameid = $this->get_new_parentid('mpgame');
+        $data->grandprixid = $this->get_new_parentid('mpgame_grandprix');
+        $newitemid = $DB->insert_record('mpgame_grandprix_users', $data);
 
-        if (!isset( $data->timestart)) {
-            $data->timestart = 0;
-        }
-        if (!isset( $data->timefinish)) {
-            $data->timefinish = 0;
-        }
-        if (!isset( $data->timelastattempt)) {
-            $data->timelastattempt = 0;
-        }
-
-        $data->timestart = $this->apply_date_offset($data->timestart);
-        $data->timefinish = $this->apply_date_offset($data->timefinish);
-        $data->timelastattempt = $this->apply_date_offset($data->timelastattempt);
-
-        $newitemid = $DB->insert_record('game_attempts', $data);
-        $this->set_mapping('game_attempt', $oldid, $newitemid);
+        $this->set_mapping('mpgame_grandprix_users', $oldid, $newitemid, true);
     }
 
-    protected function process_game_query($data) {
+    protected function process_mpgame_grandprix_rounds_user($data) {
+        global $DB;
+
+        $data = (object)$data;
+
+        $data->mpgameid = $this->get_new_parentid('mpgame');
+        $data->grandprixid = $this->get_new_parentid('mpgame_grandprix');
+        $data->userid = $this->get_mappingid('mpgame_grandprix_users', $data->userid);
+
+        $newitemid = $DB->insert_record('mpgame_grandprix_rounds_user', $data);
+
+        $this->set_mapping('mpgame_grandprix_rounds', $oldid, $newitemid, true);
+    }
+
+    protected function process_mpgame_quiz($data) {
+        global $DB;
+
+        $data = (object)$data;
+
+        $data->mpgameid = $this->get_new_parentid('mpgame');
+        // Have to change roundid, rquestionid.
+
+        $newitemid = $DB->insert_record('mpgame_quiz', $data);
+
+        $this->set_mapping('mpgame_quiz', $oldid, $newitemid, true);
+    }
+
+    protected function process_mpgame_quiz_computers($data) {
+        global $DB;
+
+        $data = (object)$data;
+
+        $data->mpgameid = $this->get_new_parentid('mpgame');
+        $data->quizid = $this->get_new_parentid('quiz');
+        $DB->insert_record('mpgame_quiz_computers', $data);
+    }
+
+    protected function process_mpgame_quiz_hits($data) {
+        global $DB;
+
+        $data = (object)$data;
+
+        $data->mpgameid = $this->get_new_parentid('mpgame');
+        $data->quizid = $this->get_new_parentid('quiz');
+        $data->userid = $this->get_mappingid('mpgame_quiz_users', $data->userid);
+
+        $DB->insert_record('mpgame_quiz_hits', $data);
+    }
+
+    protected function process_mpgame_quiz_logins($data) {
+        global $DB;
+
+        $data = (object)$data;
+
+        $data->mpgameid = $this->get_new_parentid('mpgame');
+        $data->quizid = $this->get_new_parentid('quiz');
+        $data->userid = $this->get_mappingid('mpgame_quiz_users', $data->userid);
+        $DB->insert_record('mpgame_quiz_logins', $data);
+    }
+
+    protected function process_mpgame_quiz_rounds($data) {
+        global $DB;
+
+        $data = (object)$data;
+
+        $data->mpgameid = $this->get_new_parentid('mpgame');
+        $data->quizid = $this->get_new_parentid('quiz');
+        $newitemid = $DB->insert_record('mpgame_quiz_rounds', $data);
+
+        $this->set_mapping('mpgame_quiz_rounds', $oldid, $newitemid, true);
+    }
+
+    protected function process_mpgame_quiz_rounds_questions($data) {
         global $DB;
 
         $data = (object)$data;
         $oldid = $data->id;
 
-        $data->gameid = $this->get_new_parentid('game');
-        $data->attemptid = get_mappingid('game_attempt', $data->attemptid);
-        $data->userid = $this->get_mappingid('user', $data->userid);
+        $data->mpgameid = $this->get_new_parentid('mpgame');
+        $data->quizid = $this->get_new_parentid('quiz');
+        $data->roundid = $this->get_new_parentid('quiz_rounds');
+        $newitemid = $DB->insert_record('mpgame_grandprix_hits', $data);
 
-        $newitemid = $DB->insert_record('game_queries', $data);
-        $this->set_mapping('game_query', $oldid, $newitemid);
+        $this->set_mapping('mpgame_quiz_rounds_questions', $oldid, $newitemid, true);
     }
 
-    protected function process_game_bookquiz($data) {
+    protected function process_mpgame_quiz_users($data) {
         global $DB;
 
         $data = (object)$data;
 
-        $data->id = $this->get_new_parentid('game');
+        $data->mpgameid = $this->get_new_parentid('mpgame');
+        $data->quizid = $this->get_new_parentid('quiz');
+        $newitemid = $DB->insert_record('mpgame_quiz_users', $data);
 
-        $DB->insert_record('game_bookquiz', $data);
+        $this->set_mapping('mpgame_quiz_users', $oldid, $newitemid, true);
     }
 
-    protected function process_game_bookquiz_chapter($data) {
+    protected function process_mpgame_quiz_rounds_users($data) {
         global $DB;
 
         $data = (object)$data;
 
-        $data->gameid = $this->get_new_parentid('game');
-
-        $DB->insert_record('game_bookquiz_chapters', $data);
-    }
-
-    protected function process_game_bookquiz_question($data) {
-        global $DB;
-
-        $data = (object)$data;
-
-        $data->gameid = $this->get_new_parentid('game');
-
-        $DB->insert_record('game_bookquiz_questions', $data);
-    }
-
-    protected function process_game_cross($data) {
-        global $DB;
-
-        $data = (object)$data;
-
-        $data->id = $this->get_new_parentid('game');
-
-        $DB->insert_record('game_cross', $data);
-    }
-
-    protected function process_game_cryptex($data) {
-        global $DB;
-
-        $data = (object)$data;
-
-        $data->id = $this->get_new_parentid('game');
-
-        $DB->insert_record('game_cryptex', $data);
-    }
-
-    protected function process_game_hangman($data) {
-        global $DB;
-
-        $data = (object)$data;
-
-        $data->id = $this->get_new_parentid('game');
-        $data->queryid = $this->get_mappingid('game_query', $data->queryid);
-
-        $DB->insert_record('game_hangman', $data);
-    }
-
-    protected function process_game_hiddenpicture($data) {
-        global $DB;
-
-        $data = (object)$data;
-
-        $data->id = $this->get_new_parentid('game');
-
-        $DB->insert_record('game_hiddenpicture', $data);
-    }
-
-    protected function process_game_millionaire($data) {
-        global $DB;
-
-        $data = (object)$data;
-
-        $data->id = $this->get_new_parentid('game');
-        $data->queryid = $this->get_mappingid('game_query', $data->queryid);
-
-        $DB->insert_record('game_millionaire', $data);
-    }
-
-    protected function process_game_snake($data) {
-        global $DB;
-
-        $data = (object)$data;
-
-        $data->id = $this->get_new_parentid('game');
-        $data->queryid = $this->get_mappingid('game_query', $data->queryid);
-
-        $DB->insert_record('game_snakes', $data);
-    }
-
-    protected function process_game_sudoku($data) {
-        global $DB;
-
-        $data = (object)$data;
-
-        $data->id = $this->get_new_parentid('game');
-
-        $DB->insert_record('game_sudoku', $data);
+        $data->mpgameid = $this->get_new_parentid('mpgame');
+        $data->quizid = $this->get_new_parentid('quiz');
+        $data->userid = $this->get_new_parentid('mpgame_quiz_users');
+        $DB->insert_record('mpgame_quiz_hits', $data);
     }
 
     protected function after_execute() {
-        // Add Game related files, no need to match by itemname (just internally handled context).
-        $this->add_related_files('mod_game', 'snakes_file', null);
-        $this->add_related_files('mod_game', 'snakes_board', null);
+        // Add mpgame related files, no need to match by itemname (just internally handled context).
+        $this->add_related_files('mod_mpgame', 'questionfileid', null);
     }
 }

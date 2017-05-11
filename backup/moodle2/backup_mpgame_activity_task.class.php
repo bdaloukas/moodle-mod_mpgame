@@ -24,8 +24,8 @@
  **/
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/mod/game/backup/moodle2/backup_game_stepslib.php'); // Because it exists (must).
-require_once($CFG->dirroot . '/mod/game/backup/moodle2/backup_game_settingslib.php'); // Because it exists (optional).
+require_once($CFG->dirroot . '/mod/mpgame/backup/moodle2/backup_mpgame_stepslib.php'); // Because it exists (must).
+require_once($CFG->dirroot . '/mod/mpgame/backup/moodle2/backup_mpgame_settingslib.php'); // Because it exists (optional).
 
 /**
  * game backup task that provides all the settings and steps to perform one
@@ -45,7 +45,7 @@ class backup_mpgame_activity_task extends backup_activity_task {
      */
     protected function define_my_steps() {
         // Game only has one structure step.
-        $this->add_step(new backup_game_activity_structure_step('game_structure', 'game.xml'));
+        $this->add_step(new backup_mpgame_activity_structure_step('mpgame_structure', 'mpgame.xml'));
     }
 
     /**
@@ -62,7 +62,7 @@ class backup_mpgame_activity_task extends backup_activity_task {
         $content = preg_replace($search, '$@MPGAMEINDEX*$2@$', $content);
 
         // Link to game view by moduleid.
-        $search = "/(".$base."\/mod\/,[game\/view.php\?id\=)([0-9]+)/";
+        $search = "/(".$base."\/mod\/,[mpgame\/view.php\?id\=)([0-9]+)/";
         $content = preg_replace($search, '$@MPGAMEVIEWBYID*$2@$', $content);
 
         return $content;

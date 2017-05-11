@@ -45,22 +45,22 @@ class backup_mpgame_activity_structure_step extends backup_activity_structure_st
 
         $quizcomputerss = new backup_nested_element('mpgame_quiz_computerss');
         $quizcomputers = new backup_nested_element('mpgame_quiz_computers', array('id'), array(
-        'mpgameid', 'quizid', 'ip', 'useragent', 'computercode', 'datetimeinsert');
+        'mpgameid', 'quizid', 'ip', 'useragent', 'computercode', 'datetimeinsert'));
 
         $quizloginss = new backup_nested_element('mpgame_quiz_loginss');
         $quizlogins = new backup_nested_element('mpgame_quiz_logins', array('id'), array(
         'mpgameid', 'quizid', 'userid', 'timelogin', 'ip'));
 
-        $quizusers = new backup_nested_element('mpgame_quiz_userss');
-        $quizuser = new backup_nested_element('mpgame_quiz_users', array('id'), array(
+        $quizuserss = new backup_nested_element('mpgame_quiz_userss');
+        $quizusers = new backup_nested_element('mpgame_quiz_users', array('id'), array(
         'mpgameid', 'quizid', 'lastname', 'firstname', 'lastip', 'timelogin', 'level', 'school', 'roundid'));
 
         $grandprixloginss = new backup_nested_element('mpgame_grandprix_loginss');
-        $grnaprixlogins = new backup_nested_element('mpgame_grandprix_logins', array('id'), array(
+        $grandprixlogins = new backup_nested_element('mpgame_grandprix_logins', array('id'), array(
         'mpgameid', 'grandprixid', 'userid', 'timelogin', 'ip'));
 
-        $grandprixuserss = new backup_nested_element('grandprix_userss');
-        $grandprixusers = new backup_nested_element('grandprix_users', array('id'), array(
+        $grandprixuserss = new backup_nested_element('mpgame_grandprix_userss');
+        $grandprixusers = new backup_nested_element('mpgame_grandprix_users', array('id'), array(
         'mpgameid', 'grandprixid', 'username', 'name', 'sortorder', 'lastip', 'timelogin',
         'pw', 'password', 'width', 'height'));
 
@@ -70,7 +70,7 @@ class backup_mpgame_activity_structure_step extends backup_activity_structure_st
         'displaycount', 'displaytop', 'displaytimerefresh', 'displayinfo', 'countquestions'));
 
         $grandprixroundss = new backup_nested_element('mpgame_grandprix_roundss');
-        $grandrixrounds = new backup_nested_element('mpgame_grandprix_rounds', array('id'), array(
+        $grandprixrounds = new backup_nested_element('mpgame_grandprix_rounds', array('id'), array(
         'mpgameid', 'grandprixid', 'round', 'level', 'numquestions', 'numpass'));
 
         $grandprixhitss = new backup_nested_element('mpgame_grandprix_hitss');
@@ -106,8 +106,8 @@ class backup_mpgame_activity_structure_step extends backup_activity_structure_st
         $quizroundsusers = new backup_nested_element('mpgame_quiz_rounds_users', array('id'), array(
         'quizid', 'roundid', 'userid', 'computercode', 'pass'));
 
-        $grandprixroundsuserss = new backup_nested_element('mpgame_grandprix_rounds_userss');
-        $grandprixroundsusers = new backup_nested_element('mpgame_grandprix_rounds_users', array('id'), array(
+        $grandprixroundsusers = new backup_nested_element('mpgame_grandprix_rounds_users');
+        $grandprixroundsuser = new backup_nested_element('mpgame_grandprix_rounds_user', array('id'), array(
         'mpgameid', 'roundid', 'userid', 'pass'));
 
         // Build the tree.
@@ -117,45 +117,47 @@ class backup_mpgame_activity_structure_step extends backup_activity_structure_st
             $mpgame->add_child( $grandprixs);
             $grandprixs->add_child( $grandprix);
 
-            $mpgame->add_child( $grandprixhitss);
+            $grandprix->add_child( $grandprixhitss);
             $grandprixhitss->add_child( $grandprixhits);
 
-            $mpgame->add_child( $grandprixloginss);
+            $grandprix->add_child( $grandprixloginss);
             $grandprixloginss->add_child( $grandprixlogins);
 
-            $mpgame->add_child( $grandprixquestionss);
+            $grandprix->add_child( $grandprixquestionss);
             $grandprixquestionss->add_child( $grandprixquestions);
 
-            $mpgame->add_child( $grandprixroundss);
+            $grandprix->add_child( $grandprixroundss);
             $grandprixroundss->add_child( $grandprixrounds);
 
-            $mpgame->add_child( $grandprixroundsuserss);
-            $grandprixroundsuserss->add_child( $grandprixroundsusers);
+            $grandprix->add_child( $grandprixuserss);
+            $grandprixuserss->add_child( $grandprixusers);
+
+            $grandprixrounds->add_child( $grandprixroundsusers);
+            $grandprixroundsusers->add_child( $grandprixroundsuser);
 
             $mpgame->add_child( $quizs);
             $quizs->add_child( $quiz);
 
-            $mpgame->add_child( $quizcomputers);
-            $quizcomputerss->add_child( $quizcomputer);
+            $quiz->add_child( $quizcomputerss);
+            $quizcomputerss->add_child( $quizcomputers);
 
-            $mpgame->add_child( $quizhits);
-            $quizhits->add_child( $quizhits);
+            $quiz->add_child( $quizhitss);
+            $quizhitss->add_child( $quizhits);
 
-            $mpgame->add_child( $quizloginss);
+            $quiz->add_child( $quizloginss);
             $quizloginss->add_child( $quizlogins);
 
-            $mpgame->add_child( $quizroundss);
+            $quiz->add_child( $quizroundss);
             $quizroundss->add_child( $quizrounds);
 
-            $mpgame->add_child( $quizroundsquestionss);
-            $quizroundsquestionss->add_child( $quizroundsquestionss);
+            $quiz->add_child( $quizroundsquestionss);
+            $quizroundsquestionss->add_child( $quizroundsquestions);
 
-            $mpgame->add_child( $quizroundsuserss);
+            $quiz->add_child( $quizroundsuserss);
             $quizroundsuserss->add_child( $quizroundsusers);
 
-            $mpgame->add_child( $quizuserss);
-            $quizusers->add_child( $quizusers);
-
+            $quiz->add_child( $quizuserss);
+            $quizuserss->add_child( $quizusers);
         }
 
         // Define sources.
@@ -164,23 +166,53 @@ class backup_mpgame_activity_structure_step extends backup_activity_structure_st
         // All the rest of elements only happen if we are including user info.
         if ($userinfo) {
             $grandprix->set_source_table('mpgame_grandprix', array('mpgameid' => backup::VAR_ACTIVITYID));
-            $grandprixhits->set_source_table('mpgame_grandprix_hits', array('mpgameid' => backup::VAR_ACTIVITYID));
-            $grandprixlogins->set_source_table('mpgame_grandprix_logins', array( 'mpgameid' => backup::VAR_ACTIVITYID));
-            $grandprixquestions->set_source_table('mpgame_grandprix_questions', array( 'mpgameid' => backup::VAR_ACTIVITYID));
-            $grandprixrounds->set_source_table('mpgame_grandprix_rounds', array( 'id' => backup::VAR_ACTIVITYID));
-            $grandprixroundsusers->set_source_table('mpgame_grandprix_rounds_users', array( 'id' => backup::VAR_ACTIVITYID));
-            $grandprixusers->set_source_table('mpgame_grandprix_users', array( 'id' => backup::VAR_ACTIVITYID));
+
+            $grandprixhits->set_source_table('mpgame_grandprix_hits',
+            array('mpgameid' => backup::VAR_ACTIVITYID, 'grandprixid' => backup::VAR_PARENTID));
+
+            $grandprixlogins->set_source_table('mpgame_grandprix_logins',
+            array( 'mpgameid' => backup::VAR_ACTIVITYID, 'grandprixid' => backup::VAR_PARENTID));
+
+            $grandprixquestions->set_source_table('mpgame_grandprix_questions',
+            array( 'mpgameid' => backup::VAR_ACTIVITYID, 'grandprixid' => backup::VAR_PARENTID));
+
+            $grandprixrounds->set_source_table('mpgame_grandprix_rounds',
+            array( 'id' => backup::VAR_ACTIVITYID, 'grandprixid' => backup::VAR_PARENTID));
+
+            $grandprixroundsusers->set_source_table('mpgame_grandprix_rounds_user',
+            array( 'id' => backup::VAR_ACTIVITYID, 'roundid' => backup::VAR_PARENTID));
+
+            $grandprixusers->set_source_table('mpgame_grandprix_users',
+            array( 'id' => backup::VAR_ACTIVITYID, 'grandprixid' => backup::VAR_PARENTID));
+
             $quiz->set_source_table('mpgame_quiz', array( 'id' => backup::VAR_ACTIVITYID));
-            $quizcomputers->set_source_table('mpgame_quiz_computers', array( 'id' => backup::VAR_ACTIVITYID));
-            $quizhits->set_source_table('mpgame_quiz_hits', array( 'id' => backup::VAR_ACTIVITYID));
-            $quizlogins->set_source_table('mpgame_quiz_logins', array( 'id' => backup::VAR_ACTIVITYID));
-            $quizrounds->set_source_table('mpgame_quiz_rounds', array( 'id' => backup::VAR_ACTIVITYID));
-            $quizroundsquestions->set_source_table('mpgame_quiz_rounds_questions', array( 'id' => backup::VAR_ACTIVITYID));
-            $quizroundsusers->set_source_table('mpgame_quiz_rounds_users', array( 'id' => backup::VAR_ACTIVITYID));
-            $quizusers->set_source_table('mpgame_quiz_users', array( 'id' => backup::VAR_ACTIVITYID));
+
+            $quizcomputers->set_source_table('mpgame_quiz_computers',
+            array( 'id' => backup::VAR_ACTIVITYID, 'quizid' => backup::VAR_PARENTID));
+
+            $quizhits->set_source_table('mpgame_quiz_hits',
+            array( 'id' => backup::VAR_ACTIVITYID, 'quizid' => backup::VAR_PARENTID));
+
+            $quizlogins->set_source_table('mpgame_quiz_logins',
+            array( 'id' => backup::VAR_ACTIVITYID, 'quizid' => backup::VAR_PARENTID));
+
+            $quizrounds->set_source_table('mpgame_quiz_rounds',
+            array( 'id' => backup::VAR_ACTIVITYID, 'quizid' => backup::VAR_PARENTID));
+
+            $quizroundsquestions->set_source_table('mpgame_quiz_rounds_questions',
+            array( 'id' => backup::VAR_ACTIVITYID, 'quizid' => backup::VAR_PARENTID));
+
+            $quizroundsusers->set_source_table('mpgame_quiz_rounds_users',
+            array( 'id' => backup::VAR_ACTIVITYID, 'quizid' => backup::VAR_PARENTID));
+
+            $quizusers->set_source_table('mpgame_quiz_users',
+            array( 'id' => backup::VAR_ACTIVITYID, 'quizid' => backup::VAR_PARENTID));
         }
         // Define id annotations.
+
         // Return the root element (game), wrapped into standard activity structure.
-        return $this->prepare_activity_structure( $game);
+        $mpgame->annotate_files('mod_mpgame', 'questonfileid', null); // This file area hasn't itemid.
+
+        return $this->prepare_activity_structure( $mpgame);
     }
 }
