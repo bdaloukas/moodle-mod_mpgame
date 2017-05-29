@@ -59,7 +59,7 @@ $string[ 'mpgame_grandprix'] = 'Multiplayer Game - Grandprix';
 $string[ 'question_file'] = 'Αρχείο ερωτήσεων (HTML)';
 
 // File grandprix/admin.php.
-$string[ 'import_students'] = 'Εισαγωγή μαθητών';
+$string[ 'import_students_grandprix'] = 'Εισαγωγή ομάδων';
 $string[ 'set_rounds'] = 'Ορισμός γύρων';
 $string[ 'round'] = 'Γύρος';
 $string[ 'displaycols'] = 'Στήλες εμφάνισης';

@@ -59,13 +59,15 @@ function mpgame_grandprix_startrounds() {
     $sql = "SELECT COUNT(*) as c FROM {$CFG->prefix}mpgame_grandprix_rounds_user ru, {$CFG->prefix}mpgame_grandprix_rounds r".
     " WHERE ru.roundid=r.id AND r.grandprixid={$mpgame->grandprixid}";
     $rec = $DB->get_record_sql( $sql);
-    if ($rec->c != 0) {
-        return;
+    if ($rec->c == 0) {
+        $sql = "INSERT INTO {$CFG->prefix}mpgame_grandprix_rounds_user(mpgameid,roundid,userid,pass) ".
+        " SELECT {$mpgame->id},{$mpgame->roundid},id,0 ".
+        " FROM {$CFG->prefix}mpgame_grandprix_users ".
+        " WHERE grandprixid={$mpgame->grandprixid}";
+        $DB->execute( $sql);
     }
 
-    $sql = "INSERT INTO {$CFG->prefix}mpgame_grandprix_rounds_user(mpgameid,roundid,userid,pass) ".
-    " SELECT {$mpgame->id},{$mpgame->roundid},id,0 ".
-    " FROM {$CFG->prefix}mpgame_grandprix_users ".
-    " WHERE grandprixid={$mpgame->grandprixid}";
-    $DB->execute( $sql);
+    $cmg = get_coursemodule_from_instance('mpgame', $mpgame->id, $mpgame->course);
+    $url = "{$CFG->wwwroot}/mod/mpgame/grandprix/admin.php?id={$cmg->id}&mpgameid={$mpgame->id}&grandprixid={$mpgame->grandprix->id}";
+    redirect( $url);
 }

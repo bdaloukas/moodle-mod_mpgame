@@ -26,7 +26,7 @@ require( '../../../config.php');
 require( 'lib.php');
 require( '../locallib.php');
 
-echo mpgame_getheader( get_string( 'import_students', 'mpgame'));
+echo mpgame_getheader( get_string( 'import_students_grandprix', 'mpgame'));
 
 mpgame_grandprix_require_login();
 
@@ -40,9 +40,9 @@ if (array_key_exists( 'importstudents', $_POST)) {
 
 function mpgame_grandprix_showform_importstudents() {
     echo '<form name="formimportstudents" id="formimportstudents" method="post" action="import.php">';
-    echo get_string( 'import_students', 'mpgame').': <textarea id="students" name="students" rows="20" cols="100"> </textarea>';
+    echo get_string( 'import_students_grandprix', 'mpgame').': <textarea id="students" name="students" rows="20" cols="100"></textarea>';
     echo '<input type="checkbox" name="do" value="do">Εισαγωγή στη βάση<br>';
-    echo '<input type="submit" name = "importstudents" value="'.get_string( 'import_students', 'mpgame').'">';
+    echo '<input type="submit" name = "importstudents" value="'.get_string( 'import_students_grandprix', 'mpgame').'">';
     echo '</form>';
 }
 
@@ -102,6 +102,6 @@ function mpgame_grandprix_showform_importstudents_screen() {
     }
 
     $cmg = get_coursemodule_from_instance('mpgame', $mpgame->id, $mpgame->course);
-    $url = "{$CFG->wwwroot}/mod/mpgame/quiz/admin.php?id={$cmg->id}&mpgameid={$mpgame->id}&grandprixid={$mpgame->grandprix->id}";
+    $url = "{$CFG->wwwroot}/mod/mpgame/grandprix/admin.php?id={$cmg->id}&mpgameid={$mpgame->id}&grandprixid={$mpgame->grandprix->id}";
     echo "<a href=\"$url\">".get_string( 'continue', 'mpgame').'</a>';
 }

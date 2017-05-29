@@ -34,7 +34,7 @@ $sql = "SELECT COUNT(*) as c FROM {$CFG->prefix}mpgame_grandprix_users ".
 " WHERE mpgameid={$mpgame->id} AND grandprixid={$mpgame->grandprixid}";
 $rec = $DB->get_record_sql( $sql);
 if ($rec->c == 0) {
-    echo "<a href=\"import.php\">".get_string( 'import_students', 'mpgame')."</a> &nbsp; &nbsp; &nbsp;";
+    echo "<a href=\"import.php\">".get_string( 'import_students_grandprix', 'mpgame')."</a> &nbsp; &nbsp; &nbsp;";
     die;
 }
 
