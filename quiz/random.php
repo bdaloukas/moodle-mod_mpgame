@@ -105,7 +105,7 @@ function mpgame_quiz_random_onsubmit() {
 
     mpgame_quiz_random_computenum( $numcomputers, $numstudents, $numgroups);
 
-    echo "<a href=\"random.php?count=$numcomputers\">".get_string( 'set', 'mpgame').'</a>';
+    echo "<a href=\"random.php?count=$numcomputers\">".get_string( 'quiz_set', 'mpgame').'</a>';
 }
 
 function mpgame_quiz_random_computenum( $numcomputers, $numstudents, &$nugroups) {
@@ -113,10 +113,10 @@ function mpgame_quiz_random_computenum( $numcomputers, $numstudents, &$nugroups)
 
     $nugroups = ceil( $numstudents / $numcomputers);
 
-    echo get_string( 'students', 'mpgame').': '.$numstudents.' ';
-    echo get_string( 'computers', 'mpgame').' : '.$numcomputers.' ';
-    echo get_string( 'groups', 'mpgame').': '.$nugroups;
-    echo get_string( 'level', 'mpgame').': '.$mpgame->quiz->level.'<br>';
+    echo get_string( 'quiz_students', 'mpgame').': '.$numstudents.' ';
+    echo get_string( 'quiz_computers', 'mpgame').' : '.$numcomputers.' ';
+    echo get_string( 'quiz_groups', 'mpgame').': '.$nugroups.' ';
+    echo get_string( 'quiz_level', 'mpgame').': '.$mpgame->quiz->level.'<br>';
 }
 
 function mpgame_quiz_onsubmit_setseed() {
@@ -197,7 +197,7 @@ function mpgame_quiz_onconfirm() {
 
     for ($i = 1; $i <= $numgroups; $i++) {
         $nextpos = $pos + $acount[ $i - 1];
-        echo get_string( 'group', 'mpgame')." $i: ".($pos + 1)."-$nextpos ".get_string( 'count', 'mpgame');
+        echo get_string( 'quiz_group', 'mpgame')." $i: ".($pos + 1)."-$nextpos ".get_string( 'count', 'mpgame');
         echo ': '.$acount[ $i - 1].'<br>';
 
         $newrec = new StdClass;

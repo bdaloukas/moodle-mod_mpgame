@@ -104,9 +104,12 @@ function mpgame_quiz_show( $id) {
         if ($rec->name == '') {
             $rec->name = $rec->id;
         }
-        echo "<a href=\"{$CFG->wwwroot}/mod/mpgame/quiz/admin.php?id=$id&mpgameid={$mpgame->id}&quizid={$rec->id}\">admin</a> ";
-        echo " <a href=\"{$CFG->wwwroot}/mod/mpgame/quiz/client.php?id=$id&mpgameid={$mpgame->id}&quizid={$rec->id}\">play</a> ";
-        echo " <a href=\"{$CFG->wwwroot}/mod/mpgame/quiz/results.php?id=$id&quizid={$rec->id}\">results</a>";
+	$url = "{$CFG->wwwroot}/mod/mpgame/quiz/admin.php?id=$id&mpgameid={$mpgame->id}&quizid={$rec->id}";
+        echo "<a href=\"$url\">admin</a> ";
+	$url = "{$CFG->wwwroot}/mod/mpgame/quiz/client.php?id=$id&mpgameid={$mpgame->id}&quizid={$rec->id}";
+        echo " <a href=\"$url\" target=\"_blank\">play</a> ";
+	$url = "{$CFG->wwwroot}/mod/mpgame/quiz/results.php?id=$id&quizid={$rec->id}";
+        echo " <a href=\"$url\">results</a>";
     }
 }
 

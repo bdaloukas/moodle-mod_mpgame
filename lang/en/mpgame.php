@@ -86,6 +86,7 @@ $string[ 'displayinfo'] = 'Display info';
 $string[ 'correct_answer_is'] = 'Correct answer';
 $string[ 'number'] = 'Number';
 $string[ 'title_administration'] = 'Administration';
+$string[ 'home'] = 'Home';
 
 // File granprix/client.php.
 $string[ 'grandprix_prompt'] = 'Give 1,2,3,4';
@@ -140,6 +141,7 @@ $string[ 'time_in_seconds'] = 'Time in seconds';
 $string[ 'end_of_rounds'] = 'End of rounds';
 $string[ 'save'] = 'Save';
 $string[ 'book'] = 'Book';
+$string[ 'import_students_quiz'] = 'Import students';
 
 // File quiz/client.php.
 $string[ 'only_students'] = 'Only students';
@@ -153,18 +155,21 @@ $string[ 'answer_out_of_time'] = 'Answer out of time';
 $string[ 'correct_answer_was'] = 'The correct answer was';
 $string[ 'computercode_not_set'] = 'computercode for this computer is not set';
 $string[ 'not_used_computer'] = 'This computer is not used';
-$string[ 'computer'] = 'Computer';
+$string[ 'quiz_computers'] = 'Computers';
 
 // File quiz/random.php.
 $string[ 'no_students'] = 'Students are not inserted';
 $string[ 'count_computers'] = 'Count of computers';
 $string[ 'set_randomseed'] = 'Set randomseed';
 $string[ 'randomseed'] = 'Random seed';
-$string[ 'group'] = 'Group';
+$string[ 'quiz_groups'] = 'Groups';
 $string[ 'count'] = 'Count';
 $string[ 'count_digits'] = 'Number of digits';
 $string[ 'random_title'] = 'Random';
-$string[ 'students'] = 'Students';
+$string[ 'quiz_students'] = 'Students';
+$string[ 'quiz_level'] = 'Level';
+$string[ 'quiz_set'] = 'Set';
+$string[ 'quiz_group'] = 'Group';
 
 // File quiz/results.php.
 $string[ 'quiz_student_name'] = 'Name of student';

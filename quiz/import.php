@@ -26,7 +26,7 @@ require( '../../../config.php');
 require( 'lib.php');
 require( '../locallib.php');
 
-echo mpgame_GetHeader( get_string( 'import_students', 'mpgame'));
+echo mpgame_GetHeader( get_string( 'import_students_quiz', 'mpgame'));
 
 mpgame_quiz_require_login();
 
@@ -40,9 +40,9 @@ if (array_key_exists( 'importstudents', $_POST)) {
 
 function mpgame_quiz_showform_importstudents() {
     echo '<form name="formimportstudents" id="formimportstudents" method="post" action="import.php">';
-    echo get_string( 'import_students', 'mpgame').': <textarea id="students" name="students" rows="20" cols="100"> </textarea>';
-    echo '<input type="checkbox" name="do" value="do">'.get_string( 'import_students', 'mpgame').'<br>';
-    echo '<input type="submit" name = "importstudents" value="'.get_string( 'import_students', 'mpgame').'">';
+    echo get_string( 'import_students_quiz', 'mpgame').': <textarea id="students" name="students" rows="20" cols="100"> </textarea>';
+    echo '<input type="checkbox" name="do" value="do">'.get_string( 'import_students_quiz', 'mpgame').'<br>';
+    echo '<input type="submit" name = "importstudents" value="'.get_string( 'import_students_quiz', 'mpgame').'">';
     echo '</form>';
 }
 

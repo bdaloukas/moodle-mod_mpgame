@@ -215,7 +215,7 @@ function mpgame_grandprix_admin_onsetparams() {
 }
 
 function mpgame_grandprix_admin_showform_question() {
-    global $mpgame;
+    global $mpgame, $CFG;
 
     echo '<form name="form_question" method="post" action="admin.php">';
 
@@ -224,6 +224,9 @@ function mpgame_grandprix_admin_showform_question() {
     } else {
         $question = '';
     }
+    $cmg = get_coursemodule_from_instance('mpgame', $mpgame->id, $mpgame->course);
+    $url = $CFG->wwwroot.'/mod/mpgame/view.php?id='.$cmg->id;
+    echo "<a href=\"$url\">".get_string( 'home', 'mpgame').'</a><br><br>';
     echo get_string( 'question', 'mpgame').': ';
     echo '<input name="question" type="text" id="question" size="2" value="'.$question.'"> ';
 

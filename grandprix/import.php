@@ -78,30 +78,31 @@ function mpgame_grandprix_showform_importstudents_screen() {
     }
     echo '</table>';
 
-    if (!array_key_exists( 'do', $_POST)) {
-        return;
-    }
-    $sql = "SELECT MAX(username) as iusername FROM {$CFG->prefix}mpgame_grandprix_users ".
-    " WHERE mpgameid={$mpgame->id}";
-    $rec = $DB->get_record_sql( $sql);
-    $iusername = $rec->iusername;
+    $sql = "SELECT MAX(username) as iusername FROM {$CFG->prefix}mpgame_grandprix_users WHERE mpgameid={$mpgame->id}";
+    if (array_key_exists( 'do', $_POST)) {
+         $rec = $DB->get_record_sql( $sql);
+         $iusername = $rec->iusername;
 
-    $sql = "SELECT MAX(sortorder) as isortorder FROM {$CFG->prefix}mpgame_grandprix_users ".
-    " WHERE mpgameid={$mpgame->id}";
-    $rec = $DB->get_record_sql( $sql);
-    $isortorder = $rec->isortorder;
+         $sql = "SELECT MAX(sortorder) as isortorder FROM {$CFG->prefix}mpgame_grandprix_users ".
+         " WHERE mpgameid={$mpgame->id}";
+         $rec = $DB->get_record_sql( $sql);
+         $isortorder = $rec->isortorder;
 
-    foreach ($data as $line) {
-        $newrec = new StdClass;
-        $newrec->mpgameid = $mpgame->id;
-        $newrec->grandprixid = $mpgame->grandprixid;
-        $newrec->name = $line;
-        $newrec->sortorder = ++$isortorder;
-        $newrec->username = ++$iusername;
-        $DB->insert_record( 'mpgame_grandprix_users', $newrec);
+        foreach ($data as $line) {
+            $newrec = new StdClass;
+            $newrec->mpgameid = $mpgame->id;
+            $newrec->grandprixid = $mpgame->grandprixid;
+            $newrec->name = $line;
+            $newrec->sortorder = ++$isortorder;
+            $newrec->username = ++$iusername;
+            $DB->insert_record( 'mpgame_grandprix_users', $newrec);
+	}
     }
 
-    $cmg = get_coursemodule_from_instance('mpgame', $mpgame->id, $mpgame->course);
-    $url = "{$CFG->wwwroot}/mod/mpgame/grandprix/admin.php?id={$cmg->id}&mpgameid={$mpgame->id}&grandprixid={$mpgame->grandprix->id}";
-    echo "<a href=\"$url\">".get_string( 'continue', 'mpgame').'</a>';
+    if( $DB->get_record_sql( $sql) != false) {
+       $cmg = get_coursemodule_from_instance('mpgame', $mpgame->id, $mpgame->course);
+       $url = "{$CFG->wwwroot}/mod/mpgame/grandprix/admin.php?id={$cmg->id}&mpgameid={$mpgame->id}&grandprixid={$mpgame->grandprix->id}";
+       //echo "<a href=\"$url\">".get_string( 'continue', 'mpgame').'</a>';
+       redurect( $url);
+    }
 }

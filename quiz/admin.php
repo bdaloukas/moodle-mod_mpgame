@@ -111,7 +111,7 @@ $sql = "SELECT COUNT(*) as c FROM {$CFG->prefix}mpgame_quiz_users ".
 " WHERE mpgameid={$mpgame->id} AND quizid={$mpgame->quizid}";
 $rec = $DB->get_record_sql( $sql);
 if ($rec->c == 0) {
-    echo "<a href=\"import.php\">".get_string( 'import_students', 'mpgame').'</a> &nbsp; &nbsp; &nbsp;';
+    echo "<a href=\"import.php\">".get_string( 'import_students_quiz', 'mpgame').'</a> &nbsp; &nbsp; &nbsp;';
     die;
 }
 
@@ -123,6 +123,11 @@ if ($rec->c == 0) {
 }
 
 echo '<table border=1><tr><td>';
+$cmg = get_coursemodule_from_instance('mpgame', $mpgame->id, $mpgame->course);
+$url = $CFG->wwwroot.'/mod/mpgame/view.php?id='.$cmg->id;
+echo "<a href=\"$url\">".get_string( 'home', 'mpgame').'</a><br><br>';
+echo get_string( 'question', 'mpgame').': ';
+
 mpgame_quiz_showformround();
 mpgame_quiz_showformsave();
 
