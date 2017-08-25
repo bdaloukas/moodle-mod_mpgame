@@ -110,6 +110,12 @@ function mpgame_extend_settings_navigation($settings, $gamenode) {
         $gamenode->add(get_string('edit', 'moodle', ''), $url, navigation_node::TYPE_SETTING,
             null, null, new pix_icon('t/edit', ''));
     }
+
+    if (has_capability('mod/mpgame:viewreports', $context)) {
+        $url = new moodle_url('/mod/mpgame/admin.php', array('q' => $PAGE->cm->instance, 'debugquestions' => 1));
+        $reportnode = $gamenode->add(get_string('showquestions', 'mpgame'), $url, navigation_node::TYPE_SETTING,
+            null, null, new pix_icon('i/item', ''));
+    }
 }
 
 /* Returns an array of game type objects to construct

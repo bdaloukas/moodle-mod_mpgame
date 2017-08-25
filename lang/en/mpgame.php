@@ -50,6 +50,7 @@ $string[ 'pluginname'] = 'Multi Player Game';
 $string[ 'helpgrandprix'] = 'Plays the game Grandprix';
 $string[ 'helpquiz'] = 'Plats the game Quiz';
 $string[ 'info'] = 'Info';
+$string[ 'showquestions'] = 'Show questions';
 
 // File locallib.php.
 $string[ 'wrong_username_password'] = 'Wrong username or password';
