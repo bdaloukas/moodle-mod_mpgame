@@ -171,8 +171,8 @@ function mpgame_quiz_showform() {
             }
 
             var f = document.getElementById( "divtimer");
-            var s = "<h1><font color=\"red\"><?php echo get_string( 'rest_time', 'mpgame'); ?>': ' + timerest;
-            f.innerHTML = s + ' <?php echo get_string( 'seconds', 'mpgame');?></font></h1>";
+            var s = "<h1><font color=\"red\"><?php echo get_string( 'rest_time', 'mpgame'); ?>: " + timerest;
+            f.innerHTML = s + ' <?php echo get_string( 'seconds', 'mpgame');?></font></h1>';
 
             var f2 = document.getElementById( "divinfoanswer");
             if( f2.innerHTML != question)

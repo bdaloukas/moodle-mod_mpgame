@@ -212,9 +212,9 @@ function mpgame_quiz_results_computeinfosum(&$mapposition, &$mapinfo, &$mapqcurr
             if ($num == $maxnum) {
                 $s .= '<b>';
             }
-            $s .= ($num - 1).':';
-            $t = $maptimeanswer[ $key];
-            $s .= $t;
+            $s .= ($num - 1);//.':';
+            //$t = $maptimeanswer[ $key];
+            //$s .= $t;
             if ($num == $maxnum) {
                 $mapqcurrent[ $userid] = 1;;
             }
@@ -268,15 +268,15 @@ function mpgame_quiz_showresults( $showquestion) {
     echo '<table border=1 cellspacing="0">';
     echo '<tr><td><b>ΑΑ</b></td><td><b>'.get_string( 'position', 'mpgame').'</td>';
     echo '<td><b>'.get_string( 'quiz_student_name', 'mpgame').'</b> / <b>'.get_string( 'quiz_school', 'mpgame').'</b></td>';
-    echo '<td><b><center>'.get_string( 'question', 'mpgame').':'.get_string( 'results_duration', 'mpgame').'</td> ';
+    echo '<td><b><center>'.get_string( 'question', 'mpgame')./*':'.get_string( 'results_duration', 'mpgame').*/'</td> ';
 
     if ($showquestion) {
         echo '<td><b>'.get_string( 'quiz_sum_grade', 'mpgame').'</td>';
-        echo '<td><b>'.get_string( 'quiz_sum_time', 'mpgame').'</td><td><b>'.get_string( 'answer', 'mpgame').'</b></td>';
-        echo '<td><b><center>'.get_string( 'time', 'mpgame').'</b></td>';
+        echo /* '<td><b>'.get_string( 'quiz_sum_time', 'mpgame').'</td>*/ '<td><b>'.get_string( 'answer', 'mpgame').'</b></td>';
+        //echo '<td><b><center>'.get_string( 'time', 'mpgame').'</b></td>';
     } else {
         echo '<td><b>'.get_string( 'quiz_sum_grade', 'mpgame').'</td>';
-        echo '</td><td><b>'.get_string( 'quiz_sum_time', 'mpgame').'</td>';
+        //echo '</td><td><b>'.get_string( 'quiz_sum_time', 'mpgame').'</td>';
     }
 
     echo '</tr>';
@@ -323,19 +323,24 @@ function mpgame_quiz_showresults( $showquestion) {
         } else {
             echo '&nbsp;';
         }
-        if ($mapsumgrade2[ $userid] > 0) {
-            echo '/'.$mapsumgrade2[ $userid];
+        
+        if( $mapsumgrade2 != null) {
+            if( array_key_exists( $userid, $mapsumgrade2)) {
+                if ($mapsumgrade2[ $userid] > 0) {
+                    echo '/'.$mapsumgrade2[ $userid];
+                }
+            }
         }
         echo '</td>';
 
-        echo '<td><center>';
+/*        echo '<td><center>';
         if (array_key_exists( $userid, $mapsumtime)) {
             echo $mapsumtime[ $userid]. ' δευτ.';
         } else {
             echo '&nbsp;';
         }
         echo '</td>';
-
+*/
         $font = '';
 
         if ($showquestion) {
@@ -361,7 +366,7 @@ function mpgame_quiz_showresults( $showquestion) {
             if ($time == '') {
                 $time = '&nbsp;';
             }
-            echo "<td>{$font}$time</td>";
+            //echo "<td>{$font}$time</td>";
         }
         echo "</tr>\r\n";
     }
@@ -373,7 +378,7 @@ function mpgame_quiz_usersround( $isextra) {
 
     $recs = $DB->get_records_sql( mpgame_quiz_results_getsql($isextra, false, true, true));
     $line = 0;
-    $cols = ($isextra ? 1 : $mpgame->quiz->displaycols);
+    $cols = ($isextra ? 1 : $mpgame->quiz->displaycols);echo "cols=$cols<br>";
     $count = count( $recs);
     $countpass1 = 0;
     echo '<table border=1><tr><td>';
@@ -385,13 +390,13 @@ function mpgame_quiz_usersround( $isextra) {
             }
         }
 
-        echo mpgame_quiz_fetfontpass( $rec->pass);
+        echo mpgame_quiz_getfontpass( $rec->pass);
         echo "{$rec->lastname} {$rec->firstname} Σ:{$rec->sch} Γ:{$rec->round} Y:{$rec->computercode}";
         if ($isextra) {
             echo ' '.get_string( 'quiz_corrects', 'mpgame').': '.$rec->correct.' ';
             echo get_string( 'quiz_time', 'mpgame').": {$rec->timecorrect}";
         }
-        echo mpgame_quiz_GetFontPass( -1);
+        echo mpgame_quiz_getFontPass( -1);
 
         if ($rec->pass == 1) {
             $countpass1++;

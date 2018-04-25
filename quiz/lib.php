@@ -320,15 +320,13 @@ function mpgame_quiz_results_getsql($isextra, $onlypass, $sortalpha, $allrounds=
     } else {
         $sqlcorrect2 = '';
     }
-    $sqltimecorrect = "SELECT SUM(TIMESTAMPDIFF(SECOND, rq.timestart, h2.timehit)) ".
-    " FROM {$CFG->prefix}mpgame_quiz_hits h2, {$CFG->prefix}mpgame_quiz_rounds_questions rq ".
-    " WHERE h2.userid=ru.userid AND h2.roundid=ru.roundid AND h2.todelete=0 AND h2.iscorrect=1 ".
-    " AND rq.id=h2.rquestionid AND h2.roundid=rq.roundid";
 
-    $sql = "SELECT u.id,u.lastname,u.firstname,u.school,ru.computercode,r.round,ru.pass,LEFT(u.school,2) as sch";
+    if( $sqlcorrect2 == '')
+        $sqlcorrect2 = '0';
+    $sql = "SELECT u.id,u.lastname,u.firstname,u.school,ru.computercode,r.round,ru.pass,LEFT(u.school,20) as sch";
     $sql .= " ,($sqlcorrect) as correct";
     $sql .= " ,($sqlcorrect2) as correct2";
-    $sql .= " ,($sqltimecorrect) as timecorrect";
+
     $sql .= " FROM {$CFG->prefix}mpgame_quiz_rounds_users ru, {$CFG->prefix}mpgame_quiz_rounds r, ".
     "{$CFG->prefix}mpgame_quiz_users u ".
     " WHERE ru.roundid=r.id AND r.quizid={$mpgame->quizid} AND ru.userid=u.id ";
@@ -345,12 +343,12 @@ function mpgame_quiz_results_getsql($isextra, $onlypass, $sortalpha, $allrounds=
         $sql .= " AND pass <> 1 AND ($sqlcorrect) > 0";
     }
     if ($isextra or ($sortalpha == false)) {
-        $sql .= " ORDER BY ($sqlcorrect) DESC, ($sqlcorrect2) DESC, ($sqltimecorrect) ";
+        $sql .= " ORDER BY ($sqlcorrect) DESC";
+        if( $sqlcorrect2 != 0)
+            $sql .= ", ($sqlcorrect2) DESC";
     } else {
         $sql .= " ORDER BY u.lastname,u.firstname,u.school";
     }
-
-    echo "<hr>$sql<br>";
 
     return $sql;
 }

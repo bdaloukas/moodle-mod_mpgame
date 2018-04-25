@@ -151,6 +151,7 @@ $string[ 'correct_answer_was'] = 'Η σωστή απάντηση ήταν';
 $string[ 'computercode_not_set'] = 'Δεν έχει οριστεί το computercode για αυτό τον υπολογιστή';
 $string[ 'not_used_computer'] = 'Δεν χρησιμοποιείται ο υπολογιστής';
 $string[ 'computer'] = 'Υπολογιστής';
+$string[ 'you_typed'] = 'Πληκτρολογήσατε';
 
 // File quiz/random.php.
 $string[ 'no_students'] = 'Δεν καταχωρήθηκαν οι μαθητές';
@@ -172,6 +173,8 @@ $string[ 'quiz_school'] = 'Σχολείο';
 $string[ 'quiz_corrects'] = 'Σωστά';
 $string[ 'quiz_time'] = 'Χρόνος';
 $string[ 'quiz_pass'] = 'Προκρίνονται';
+$string[ 'time_rest1'] = 'Χρόνος';
+$string[ 'time_rest2'] = 'δευτερόλεπτα';
 
 // File quiz/stats.php.
 $string[ 'quiz_answered_all'] = 'ΑΠΑΝΤΗΘΗΚΑΝ ΑΠΟ ΟΛΟΥΣ';
@@ -179,4 +182,4 @@ $string[ 'quiz_answered_none'] = 'ΔΕΝ ΑΠΑΝΤΗΘΗΚΑΝ ΑΠΟ ΚΑΝΕ�
 
 // File quiz/timeradmin.php.
 $string[ 'admin_student_school'] = 'Ονοματεπώνυμο μαθητή / Σχολείο';
-$string[ 'answer'] = 'Answer';
+$string[ 'answer'] = 'Απάντηση';

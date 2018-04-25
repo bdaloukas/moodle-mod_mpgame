@@ -143,6 +143,7 @@ $string[ 'end_of_rounds'] = 'End of rounds';
 $string[ 'save'] = 'Save';
 $string[ 'book'] = 'Book';
 $string[ 'import_students_quiz'] = 'Import students';
+$string[ 'count_students_quiz'] = 'Count of students';
 
 // File quiz/client.php.
 $string[ 'only_students'] = 'Only students';
@@ -157,6 +158,8 @@ $string[ 'correct_answer_was'] = 'The correct answer was';
 $string[ 'computercode_not_set'] = 'computercode for this computer is not set';
 $string[ 'not_used_computer'] = 'This computer is not used';
 $string[ 'quiz_computers'] = 'Computers';
+$string[ 'computer'] = 'Computer';
+$string[ 'you_typed'] = 'You typed';
 
 // File quiz/random.php.
 $string[ 'no_students'] = 'Students are not inserted';
@@ -183,6 +186,8 @@ $string[ 'quiz_school'] = 'School';
 $string[ 'quiz_corrects'] = 'Corrects';
 $string[ 'quiz_time'] = 'Time';
 $string[ 'quiz_pass'] = 'Pass';
+$string[ 'time_rest1'] = 'Time';
+$string[ 'time_rest2'] = 'seconds';
 
 // File quiz/stats.php.
 $string[ 'quiz_answered_all'] = 'ANSWERED FROM ALL';

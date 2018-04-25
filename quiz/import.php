@@ -62,7 +62,7 @@ function mpgame_quiz_showform_importstudents_do_compute( &$ret) {
 
         $b = explode( "\t", $s);
 
-        $line = array( 'lastname' => $b[ 0], 'firstname' => $b[ 1], 'school' => $b[ 2]);
+        $line = array( 'school' => $b[ 0], 'lastname' => $b[ 1], 'firstname' => $b[ 2]);
 
         $ret[] = $line;
     }
@@ -77,9 +77,9 @@ function mpgame_quiz_showform_importstudents_screen() {
     foreach ($data as $line) {
         echo '<tr>';
         echo '<td>'.($count++).'</td>';
+        echo '<td>'.$line[ 'school'].'</td>';
         echo '<td>'.$line[ 'lastname'].'</td>';
         echo '<td>'.$line[ 'firstname'].'</td>';
-        echo '<td>'.$line[ 'school'].'</td>';
         echo '</tr>';
     }
     echo '</table>';
@@ -92,9 +92,9 @@ function mpgame_quiz_showform_importstudents_screen() {
         $newrec = new StdClass;
         $newrec->mpgameid = $mpgame->id;
         $newrec->quizid = $mpgame->quizid;
+        $newrec->school = $line[ 'school'];
         $newrec->lastname = $line[ 'lastname'];
         $newrec->firstname = $line[ 'firstname'];
-        $newrec->school = $line[ 'school'];
         $DB->insert_record( 'mpgame_quiz_users', $newrec);
     }
     $cmg = get_coursemodule_from_instance('mpgame', $mpgame->id, $mpgame->course);

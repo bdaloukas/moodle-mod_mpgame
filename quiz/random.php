@@ -53,7 +53,7 @@ function mpgame_quiz_random_showform() {
 
     $students = mpgame_quiz_random_computeusers( $level, true);
     $count = count($students);
-    echo get_string( 'students', 'mpgame').": $count<br>";
+    echo get_string( 'quiz_students', 'mpgame').": $count<br>";
     if ($count == 0) {
         die( get_string( 'no_students', 'mpgame'));
     }
@@ -177,9 +177,15 @@ function mpgame_quiz_onconfirm() {
         $acount[] = $numstudents;
     } else {
         $cspace = $numgroups * $numcomputers - $numstudents;
+        if( $cspace > $numgroups) {
+            $numcomputers--;
+            $cspace = $numgroups * $numcomputers - $numstudents;
+        }
+
         for ($i = 1; $i <= $numgroups - $cspace; $i++) {
             $acount[] = $numcomputers;
         }
+
         for ($i = 1; $i <= $cspace; $i++) {
             $acount[] = $numcomputers - 1;
         }
@@ -190,7 +196,7 @@ function mpgame_quiz_onconfirm() {
         $sum += $count;
     }
     if ($sum != $numstudents) {
-        die( 'Problem at computing students per group');
+        die( "Problem at computing students per group");
     }
 
     $pos = 0;

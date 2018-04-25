@@ -156,9 +156,11 @@ if (array_key_exists( 'newquestion', $_GET)) {
 }
 
 if ($mpgame->quiz->roundid != 0) {
-    if (($mpgame->quiz->rquestionid == 0) or ($mpgame->question->graded == 1)) {
-        // Have to answer for new question.
-        echo "<a href=\"admin.php?newquestion=1\">".get_string( 'new_question', 'mpgame').'</a> &nbsp; &nbsp; &nbsp;';
+    if( isset( $mpgame->question)) {
+        if (($mpgame->quiz->rquestionid == 0) or ($mpgame->question->graded == 1)) {
+            // Have to answer for new question.
+            echo "<a href=\"admin.php?newquestion=1\">".get_string( 'new_question', 'mpgame').'</a> &nbsp; &nbsp; &nbsp;';
+        }
     }
 }
 
@@ -262,7 +264,7 @@ function mpgame_quiz_showformcolumns() {
     global $mpgame;
 
     echo '<form name="formcolumns" id="formcolumns" method="post" action="admin.php">';
-    echo get_string( 'cols', 'mpgame');
+    echo get_string( 'cols', 'mpgame').' (Μαθητές γύρου)';
     echo ': <input type="text" id="txtcolumns" name="txtcolumns" value="'.$mpgame->quiz->displaycols.'" size="2" >';
     echo '<input type="submit" value="'.get_string( 'set_columns', 'mpgame').'">';
     echo '</form>';
@@ -404,7 +406,7 @@ function mpgame_quiz_selectonequestion() {
     $newrec->question = $entry->line;
     $newrec->sheet = $entry->sheet;
     $newrec->category = $entry->category;
-    $newrec->kind = $kind;
+    $newrec->kind = $entry->kind;
     $newrec->questiontext = $questiontext;
     $newrec->questiontext2 = $questiontext2;
     $newrec->md5questiontext = md5( $questiontext);
@@ -422,7 +424,7 @@ function mpgame_quiz_selectonequestion() {
 function mpgame_quiz_writequestion( $entry, &$correctanswer, &$questiontext2) {
     global $CFG;
 
-    switch (mpgame_quiz_computekindquestion( $entry)) {
+    switch ($entry->kind) {
         case 'M':
             $s = mpgame_quiz_writequestionm( $entry, $correctanswer, $questiontext2);
             break;
@@ -449,8 +451,8 @@ function mpgame_quiz_writequestions( $entry, &$correctanswer, &$questiontext2) {
 
 function mpgame_quiz_writequestionm( $entry, &$correctanswer, &$questiontext2) {
     $a = array();
-    for ($i = 0; $i < count( $entry->questions); $i++) {
-        $a[ $i] = $entry->questions[ $i];
+    for ($i = 0; $i < count( $entry->answers); $i++) {
+        $a[ $i] = $entry->answers[ $i];
     }
     mpgame_shuffle_assoc( $a);
 
@@ -625,7 +627,7 @@ function mpgame_quiz_onsetcolumns( $columns) {
     $updrec = new StdClass;
     $updrec->id = $mpgame->quizid;
     $updrec->displaycols = $columns;
-    $DB->update_record( 'mpgame_quiz', $updrec);
+    $DB->update_record( 'mpgame_quiz', $updrec);print_r( $updrec);
 
     echo get_string( 'cols_set_at', 'mpgame').' '.$columns.'.<br>';
 }
@@ -836,6 +838,9 @@ function mpgame_quiz_parsequestions_htm( $s) {
             $row++;
             $a[] = mpgame_ParseQuestion_RepairCSS( trim($td), $mapcss);
         }
+        if( !array_key_exists( 1, $a)) {
+            continue;
+        }
         $question = trim( strip_tags($a[ 1]));
         if (strlen( $question) < 4) {
             continue;
@@ -872,23 +877,216 @@ function mpgame_quiz_parsequestions_htm( $s) {
 function mpgame_quiz_parsequestions() {
     global $mpgame;
 
-    $file = $mpgame->questionfile;
+    if ($mpgame->questionfileid != 0) {
+        $f = mpgame_get_question_file( $mpgame);
+    } else {
+        die( "Not set questionfileid");
+    }
 
+    $file = $f->get_filename();
+    if( $file == 'content.xml') {
+
+        return mpgame_quiz_parseQuestions_ods_content( $f->get_content());
+    }
     $pos = strrpos( $file, '.');
     $ext = strtolower( substr( $file, $pos + 1));
 
     if (($ext == 'htm') or ($ext == 'html')) {
-        return mpgame_quiz_parseQuestions_htm( file_get_contents( $file));
-    }
-
-    if ($mpgame->questionfileid != 0) {
-        $f = mpgame_get_question_file( $mpgame);
-    } else {
-        $f = false;
-    }
-    if ($f === false) {
-        die( "Not set questionfileid");
+        return mpgame_quiz_parseQuestions_htm( $f->get_content());
     }
 
     return mpgame_quiz_parsequestions_htm( $f->get_content());
+}
+
+function mpgame_quiz_parseQuestions_ods_content( $s) {
+    $map = array();
+    $map_style = array();
+
+    $search = '<style:style style:name="';
+    $search2 = '<style:text-properties ';
+    for(;;) {
+        $pos = strpos( $s, $search);
+        if( $pos === false) {
+            break;
+        }
+        $s = substr( $s, $pos + strlen( $search));
+        $pos = strpos( $s, '"');
+        if( $pos === false) {
+            break;
+        }
+        $name = substr( $s, 0, $pos);
+
+        $pos = strpos( $s, $search2);
+        if( $pos === false) {
+            break;
+        }
+        $s = substr( $s, $pos + strlen( $search2));
+        $pos = strpos( $s, '/>');
+        if( $pos === false) {
+            break;
+        }
+        $style = substr( $s, 0, $pos);
+        $map_style[ $name] = $style;
+    }
+
+    $counter = 0;
+
+    for(;;) {    
+        $pos1 = strpos( $s, '<table:table-row');
+        if( $pos1 === false)
+            break;
+        $s = substr( $s, $pos1);
+
+        $pos2 = strpos( $s, '</table:table-row>');
+        if( $pos2 === false)
+            break;
+        mpgame_quiz_parseQuestions_ods_content_row( substr( $s, 0, $pos2+16), $counter, $map, $map_style);
+
+        $s = substr( $s, $pos2);
+    }
+
+    return $map;   
+}
+
+function mpgame_quiz_parseQuestions_ods_content_row( $s, &$counter, &$map, $map_style) {//if( strpos( $s, 'Όταν λιώσει ο πάγος') != false)
+
+    if( $counter == 0) {
+        $counter++;
+        return;
+    }
+
+    $a = array();
+
+    for(;;)
+    {
+        $pos = strpos( $s, '<table:table-cell');
+        if( $pos === false) {
+            break;
+        }
+        $s = substr( $s, $pos);
+        $pos = strpos( $s, '</table:table-cell>');
+        if( $pos === false) {
+            break;
+        }
+        $a[] = mpgame_quiz_parseQuestions_ods_content_col( substr( $s, 0, $pos), $map_style);
+        $s = substr( $s, $pos);
+    }
+    if( count( $a) <= 2) {
+        return;
+    }
+
+    $entry = new StdClass;
+    $entry->sheet = '';
+    $entry->category = $a[ 0];
+    $entry->question = $a[ 1];
+    $entry->answers = array();
+    for ($i = 2; $i < count( $a); $i++) {
+        $entry->answers[] = $a[ $i];
+    }
+    $entry->kind = mpgame_quiz_computekindquestion( $entry->answers);
+    $entry->line = ++$counter;
+
+    $map[ $counter] = $entry;    
+}
+
+function mpgame_quiz_parseQuestions_ods_content_col( $s, $map_style) {
+    for(;;) {
+        $pos = strpos( $s, '<table:table-cell');
+        if( $pos === false) {
+            break;
+        }
+        $pos2 = strpos( substr( $s, $pos), '>');
+        if( $pos2 === false) {
+            break;
+        }
+        $s = substr( $s, 0, $pos).substr( $s, $pos + $pos2 + 1);
+    }
+
+    for(;;) {
+        $pos = strpos( $s, '<text:p>');
+        if( $pos === false) {
+            break;
+        }
+        $pos2 = strpos( substr( $s, $pos), '>');
+        if( $pos2 === false) {
+            break;
+        }
+        $s = substr( $s, 0, $pos).substr( $s, $pos + $pos2 + 1);
+    }
+
+    $s = str_replace( array( '<text:p>', '</text:p>'), array( '<p>', '</p>'), $s);
+
+    $s = mpgame_quiz_parseQuestions_ods_content_col_repairstyle( $s, $map_style);
+
+    return $s;
+}
+
+function mpgame_quiz_parseQuestions_ods_content_col_repairstyle( $s, $map_style) {
+    
+    $search = '<text:span text:style-name="';
+    for(;;) {
+        $pos = strpos( $s, $search);
+        if( $pos === false) {
+            break;
+        }
+        $s_before = substr( $s, 0, $pos);
+        $s = substr( $s, $pos + strlen( $search));
+        $pos = strpos( $s, '">');
+        if( $pos === false) {
+            $s = $s_before;
+            break;
+        }
+        $name = substr( $s, 0, $pos);
+
+        $s = substr( $s, $pos+1);
+        $pos = strpos( '_'.$s, ">");
+        if( $pos != false) {
+            $s = substr( $s, $pos);
+        }
+
+        //Here is the text
+        $pos = strpos( $s, '</');
+        if( $pos === false) {
+            $s = $s_before;
+            break;
+        }
+        $text = substr( $s, 0, $pos);
+
+        $s = substr( $s, $pos);
+        $pos = strpos( $s, '</text:span');
+        if( $pos === false) {
+            $s = $s_before;
+            break;
+        };
+        $s = substr( $s, $pos);
+        $pos = strpos("_".$s, '>');
+        if( $pos === false) {
+            $s = $s_before;
+            break;
+        }
+        $s = substr( $s, $pos);
+        if( array_key_exists( $name, $map_style)) {
+            $text = mpgame_quiz_parseQuestions_ods_content_col_getstyle( $text, $map_style[ $name]);
+            $name = '';
+        }
+        $s = $s_before.$text.$s;
+    }
+
+    return $s;
+}
+
+function mpgame_quiz_parseQuestions_ods_content_col_getstyle( $s, $style) {
+    $search = 'style:text-underline-style="';
+    $pos = strpos( '_'.$style, $search);
+    if( $pos != false) {
+        $value = substr( $style, $pos + strlen( $search) - 1);
+        $pos = strpos( "_$value", '"');
+        if( $pos != false) {
+            $value = substr( $value, 0, $pos-1);
+            if( $value == 'solid') {
+                $s = "<u>$s</u>";
+            }
+        }
+    }
+    return $s;
 }
