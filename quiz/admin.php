@@ -156,12 +156,12 @@ if (array_key_exists( 'newquestion', $_GET)) {
 }
 
 if ($mpgame->quiz->roundid != 0) {
-    if( isset( $mpgame->question)) {
+    //if( isset( $mpgame->question)) {
         if (($mpgame->quiz->rquestionid == 0) or ($mpgame->question->graded == 1)) {
             // Have to answer for new question.
             echo "<a href=\"admin.php?newquestion=1\">".get_string( 'new_question', 'mpgame').'</a> &nbsp; &nbsp; &nbsp;';
         }
-    }
+    //}
 }
 
 if (isset( $mpgame->question)) {
@@ -277,7 +277,7 @@ function mpgame_quiz_selectonequestion_computeused( &$map) {
 
     $sql = "SELECT * FROM {$CFG->prefix}mpgame_quiz_rounds_questions ".
     "WHERE quizid=$mpgame->quizid";
-    $recs = $DB->get_records_sql( $sql);
+    $recs = $DB->get_records_sql( $sql);echo "count=".count( $recs);
     $used = array();
     foreach ($recs as $rec) {
         $question = $rec->question;
@@ -285,7 +285,7 @@ function mpgame_quiz_selectonequestion_computeused( &$map) {
 
         $used[ $question] = 1;
         if ($rec->roundid == $mpgame->quiz->roundid) {
-            $key = $rec->sheet.'#'.$rec->category.'#'.$rec->kind;
+            $key = $rec->sheet.'#'.strip_tags( $rec->category).'#'.$rec->kind;
             if (array_key_exists( $key, $mapused)) {
                 $mapused[ $key]++;
             } else {
@@ -299,7 +299,7 @@ function mpgame_quiz_selectonequestion_computeused( &$map) {
 
 function mpgame_quiz_selectonequestion_computeall( $map) {
     $mapall = array();
-
+echo "count_all=".count( $map);
     foreach ($map as $entry) {
         $key = $entry->sheet.'#'.$entry->category.'#'.$entry->kind;
         if (array_key_exists( $key, $mapall)) {
@@ -341,7 +341,7 @@ function mpgame_quiz_selectonequestion_computewhere($mapused, $mapall, &$sheet, 
 
 function mpgame_quiz_selectonequestion_computefind( $map, $sheet, $category, $kind) {
     $maptemp = array(); // This map stores all entries that match.
-
+echo "sheet=$sheet category=$category kind=$kind<br>";
     foreach ($map as $line => $entry) {
         if (($sheet != '') and ($entry->sheet != $sheet)) {
             continue;
@@ -353,7 +353,7 @@ function mpgame_quiz_selectonequestion_computefind( $map, $sheet, $category, $ki
             continue;
         }
 
-        $maptemp[] = $line;
+        $maptemp[ $line] = $line;
     }
 
     if (count( $maptemp) == 0) {
@@ -370,6 +370,10 @@ function mpgame_quiz_selectonequestion_computefind( $map, $sheet, $category, $ki
         }
     }
 
+    if (count( $maptemp) == 0) {
+        return false;
+    }
+    
     return $map[ array_rand( $maptemp)];
 }
 
@@ -377,13 +381,15 @@ function mpgame_quiz_selectonequestion() {
     global $CFG, $DB, $mpgame;
 
     $map = mpgame_quiz_parsequestions();
+    $map_original = $map;
 
     // I compute how many questions are used to avoid using them again.
     $mapused = mpgame_quiz_selectonequestion_computeused( $map);
 
     $mapall = mpgame_quiz_selectonequestion_computeall( $map);
+    $mapall_original = mpgame_quiz_selectonequestion_computeall( $map_original);
 
-    mpgame_quiz_selectonequestion_computewhere( $mapused, $mapall, $sheet, $category, $kind);
+    mpgame_quiz_selectonequestion_computewhere( $mapused, $mapall_original, $sheet, $category, $kind);
     $entry = mpgame_quiz_selectonequestion_computefind( $map, $sheet, $category, $kind);
 
     $sql = "SELECT max(numquestion) as max FROM {$CFG->prefix}mpgame_quiz_rounds_questions WHERE roundid={$mpgame->quiz->roundid}";
@@ -440,7 +446,7 @@ function mpgame_quiz_writequestion( $entry, &$correctanswer, &$questiontext2) {
 }
 
 function mpgame_quiz_writequestions( $entry, &$correctanswer, &$questiontext2) {
-    $s = '<b>'.$entry->question.': ';
+    $s = '<b>'.$entry->question;
 
     $correctanswer = trim( $entry->answers[ 0]);
 
@@ -647,17 +653,17 @@ function mpgame_quiz_oncloseround( $numpass, $numquestions) {
     if ($ids != '') {
         $sql = "UPDATE {$CFG->prefix}mpgame_quiz_rounds_users SET pass=1 ".
         " WHERE roundid={$mpgame->quiz->roundid} AND userid IN ($ids)";
-        $DB->execute( $sql);echo "<hr>$sql<br>";
+        $DB->execute( $sql);
 
         $sql = "UPDATE {$CFG->prefix}mpgame_quiz_rounds_users SET pass=0 ".
         " WHERE roundid={$mpgame->quiz->roundid} AND NOT userid IN ($ids)";
-        $DB->execute( $sql);echo "<hr>$sql<br>";
+        $DB->execute( $sql);
 
         if (count( $mapequal)) {
             $ids = implode( $mapequal, ',');
             $sql = "UPDATE {$CFG->prefix}mpgame_quiz_rounds_users SET pass=3 ".
             " WHERE roundid={$mpgame->quiz->roundid} AND userid IN ($ids)";
-            $DB->execute( $sql);echo "<hr>$sql<br>";
+            $DB->execute( $sql);
         }
     }
 }
@@ -977,8 +983,8 @@ function mpgame_quiz_parseQuestions_ods_content_row( $s, &$counter, &$map, $map_
 
     $entry = new StdClass;
     $entry->sheet = '';
-    $entry->category = $a[ 0];
-    $entry->question = $a[ 1];
+    $entry->category = strip_tags( $a[ 0]);
+    $entry->question = strip_tags( $a[ 1]);
     $entry->answers = array();
     for ($i = 2; $i < count( $a); $i++) {
         $entry->answers[] = $a[ $i];
