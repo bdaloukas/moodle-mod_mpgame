@@ -321,6 +321,10 @@ function mpgame_quiz_results_getsql($isextra, $onlypass, $sortalpha, $allrounds=
         $sqlcorrect2 = '';
     }
 
+    if( $sqlcorrect2 == '') {
+        $sqlcorrect2 = '0';
+    }
+
     $sql = "SELECT u.id,u.lastname,u.firstname,u.school,ru.computercode,r.round,ru.pass,LEFT(u.school,20) as sch";
     $sql .= " ,($sqlcorrect) as correct";
     $sql .= " ,($sqlcorrect2) as correct2";
@@ -342,7 +346,7 @@ function mpgame_quiz_results_getsql($isextra, $onlypass, $sortalpha, $allrounds=
     }
     if ($isextra or ($sortalpha == false)) {
         $sql .= " ORDER BY ($sqlcorrect) DESC";
-        if( $sqlcorrect2 != '')
+        if( $sqlcorrect2 != '0')
             $sql .= ", ($sqlcorrect2) DESC";
     } else {
         $sql .= " ORDER BY u.lastname,u.firstname,u.school";

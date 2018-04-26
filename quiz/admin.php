@@ -167,12 +167,14 @@ if ($mpgame->quiz->roundid != 0) {
 if (isset( $mpgame->question)) {
     // We have an ungraded question.
     // Have to ask if want to start a new round or grade.
-    $timefinish = strtotime( $mpgame->question->timefinish);
+    if( isset( $mpgame->question->timefinish)) {
+        $timefinish = strtotime( $mpgame->question->timefinish);
 
-    if ($timefinish != 0) {
-        // Have to grade.
-        echo "<a href=\"admin.php?grade=1\">".get_string( 'set_grade', 'mpgame').'</a>';
-        echo " &nbsp; &nbsp; &nbsp;<a href=\"admin.php?delgrade=1\">".get_string( 'zero_grade', 'mpgame').'</a>';
+        if ($timefinish != 0) {
+            // Have to grade.
+            echo "<a href=\"admin.php?grade=1\">".get_string( 'set_grade', 'mpgame').'</a>';
+            echo " &nbsp; &nbsp; &nbsp;<a href=\"admin.php?delgrade=1\">".get_string( 'zero_grade', 'mpgame').'</a>';
+        }
     }
 }
 
@@ -323,12 +325,12 @@ function mpgame_quiz_selectonequestion_computewhere($mapused, $mapall, &$sheet, 
             $thiscount = 0;
         }
         $percent = round( 1000 * $thiscount / $allcount);
-        $map[ $key] = $percent;
+        $map[ $key] = $percent;//echo "key=$key $thiscount allcount=$allcount<br>";
     }
     if (count( $map) == 0) {
         return;
-    }
-    asort( $map);
+    }//print_r( $map);
+    asort( $map);//echo "mapall=";print_r( $mapall);die;
     foreach ($map as $key => $percent) {
         break;  // Finds the smaller percent.
     }
@@ -984,7 +986,7 @@ function mpgame_quiz_parseQuestions_ods_content_row( $s, &$counter, &$map, $map_
     $entry = new StdClass;
     $entry->sheet = '';
     $entry->category = strip_tags( $a[ 0]);
-    $entry->question = strip_tags( $a[ 1]);
+    $entry->question = $a[ 1];
     $entry->answers = array();
     for ($i = 2; $i < count( $a); $i++) {
         $entry->answers[] = $a[ $i];
@@ -1094,5 +1096,19 @@ function mpgame_quiz_parseQuestions_ods_content_col_getstyle( $s, $style) {
             }
         }
     }
+
+    $search = 'fo:font-weight="';
+    $pos = strpos( '_'.$style, $search);
+    if( $pos != false) {
+        $value = substr( $style, $pos + strlen( $search) - 1);
+        $pos = strpos( "_$value", '"');
+        if( $pos != false) {
+            $value = substr( $value, 0, $pos-1);
+            if( $value == 'bold') {
+                $s = "<b>$s</b>";
+            }
+        }
+    }
+
     return $s;
 }
