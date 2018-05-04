@@ -30,6 +30,7 @@ echo mpgame_getheader( get_string( 'import_students_grandprix', 'mpgame'));
 
 mpgame_grandprix_require_login();
 
+print_r( $_POST);die;
 if (array_key_exists( 'importstudents', $_POST)) {
     mpgame_grandprix_ShowForm_ImportStudents_Screen();
 } else if ( array_key_exists( 'do', $_GET)) {
@@ -103,6 +104,6 @@ function mpgame_grandprix_showform_importstudents_screen() {
        $cmg = get_coursemodule_from_instance('mpgame', $mpgame->id, $mpgame->course);
        $url = "{$CFG->wwwroot}/mod/mpgame/grandprix/admin.php?id={$cmg->id}&mpgameid={$mpgame->id}&grandprixid={$mpgame->grandprix->id}";
        //echo "<a href=\"$url\">".get_string( 'continue', 'mpgame').'</a>';
-       redurect( $url);
+       redirect( $url);
     }
 }

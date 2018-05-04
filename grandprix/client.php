@@ -225,7 +225,7 @@ function mpgame_grandprix_onanswer( $answer) {
         " WHERE questionid={$mpgame->grandprix->questionid} AND userid={$mpgame->userid} AND todelete=0 ".
         " AND grandprixid={$mpgame->grandprixid}";
         $rec = $DB->get_record_sql( $sql);
-        if (rec === false) {
+        if ($rec === false) {
             break;
         }
         if ($rec->minid == $rec->maxid) {

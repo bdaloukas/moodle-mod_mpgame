@@ -277,10 +277,10 @@ function mpgame_grandprix_admin_setquestion() {
     } else {
         $newrec->id = $rec->id;
     }
-    $newrec->duration = $entry->duration;
+    $newrec->duration = strip_tags( $entry->duration);//debug bdaloukas
     $newrec->questiontext = $entry->question;
     $newrec->md5questiontext = md5( $entry->question);
-    $newrec->grade = $entry->grade;
+    $newrec->grade = strip_tags( $entry->grade);//debug bdaloukas
     $newrec->timechange = date('Y-m-d H:i:s');;
 
     if ($rec === false) {

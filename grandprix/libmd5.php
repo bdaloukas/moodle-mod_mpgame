@@ -24,6 +24,14 @@ defined('MOODLE_INTERNAL') || die();
 function mpgame_grandprix_computetimerstudent( &$resttime, &$numquestion, &$questiontext, &$md5, &$infoanswer) {
     global $CFG, $DB, $mpgame;
 
+    if( !isset( $mpgame->question)) {
+        $mpgame->question = new StdClass;
+        $mpgame->question->timefinish = time();
+        $mpgame->question->md5questiontext = '';
+        $mpgame->question->questiontext = '';
+        $mpgame->question->numquestion = 0;
+    }
+
     $resttime = $mpgame->question->timefinish - time();
 
     if ($resttime < 0) {
@@ -32,7 +40,7 @@ function mpgame_grandprix_computetimerstudent( &$resttime, &$numquestion, &$ques
 
     $numquestion = $mpgame->question->numquestion;
     $questiontext = $mpgame->question->questiontext;
-    $md5 = $mpgame->question->md5questiontext;
+    $md5 = $mpgame->question->md5questiontext = '';
 
     $sql = "SELECT * FROM {$CFG->prefix}mpgame_grandprix_users WHERE id={$mpgame->userid}";
     $user = $DB->get_record_sql( $sql);
@@ -50,8 +58,12 @@ function mpgame_grandprix_computetimerstudent( &$resttime, &$numquestion, &$ques
         die( 'Λάθος IP: '.$ip.' user='.$user->username);
     }
 
+    $questionid = 0;
+    if( isset( $mpgame->grandprix->questionid)) {
+        $questionid = $mpgame->grandprix->questionid;
+    }
     $sql = "SELECT * FROM {$CFG->prefix}mpgame_grandprix_hits ".
-    " WHERE questionid={$mpgame->grandprix->questionid} AND todelete=0 AND userid={$mpgame->userid}";
+    " WHERE questionid=$questionid AND todelete=0 AND userid={$mpgame->userid}";
     $rec = $DB->get_record_sql( $sql);
     $infoanswer = '';
     if ($rec === false) {

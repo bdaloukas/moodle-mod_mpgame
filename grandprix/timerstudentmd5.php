@@ -38,7 +38,9 @@ if ( $mpgame->grandprix->questionid != 0) {
 mpgame_grandprix_ComputeTimerStudent( $resttime, $question, $questiontext, $md5, $infoanswer);
 
 echo $resttime.'#';
-echo get_string( 'question', 'mpgame').": {$mpgame->question->numquestion} &nbsp;&nbsp;".$infoanswer;
+if( isset( $mpgame->question)) {
+    echo get_string( 'question', 'mpgame').": {$mpgame->question->numquestion} &nbsp;&nbsp;".$infoanswer;
+}
 echo '#'.$md5;
 
 function mpgame_grandprix_md5_loadgameinfo() {

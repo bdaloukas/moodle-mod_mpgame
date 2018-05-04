@@ -351,6 +351,7 @@ function mpgame_grandprix_results_showtable( $count, $sortlines, $maxquestion) {
     }
 
     echo '<table border=1>';
+/*
     echo '<tr>';
     for ($i = 1; $i <= $cols; $i++) {
         echo '<td colspan=2>&nbsp;</td>';
@@ -360,7 +361,7 @@ function mpgame_grandprix_results_showtable( $count, $sortlines, $maxquestion) {
         }
     }
     echo '</tr><tr>';
-
+*/
     for ($i = 1; $i <= $cols; $i++) {
         echo '<td><b>'.get_string( 'results_name', 'mpgame').'</td>';
         echo '<td><b>'.get_string( 'position', 'mpgame').'</td>';
